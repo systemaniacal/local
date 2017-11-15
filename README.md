@@ -19,16 +19,15 @@ Add the following javascript to your dApp:
 
 
 ```
-<input type='text' id='actionPayInput_<%= action.id %>' placeholder="setting"/>
-<button id="actionPayButton_<%= action.id %>">Pay</button>
-<!-- </form> -->
+<input type='text' id='runInvokeArgument' placeholder="setting"/>
+<button id="runInvokeButton">Invoke</button>
 <script>
-document.getElementById("actionPayButton_<%= action.id %>").addEventListener("click",
+document.getElementById("runInvokeButton).addEventListener("click",
     function() {
-      var actionValue = document.getElementById("actionPayInput_<%= action.id %>").value
+      var invokeArg = document.getElementById("runInvokeArgument").value
 
-      var actionPack = {
-        'scriptHash': '<%= action.scriptHash %>',
+      var invocationObject = {
+        'scriptHash': '_your script hash here_',
         'operation': 'putvalue',
         'arg1': 'test',
         'arg2': actionValue,
