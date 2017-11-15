@@ -20,7 +20,7 @@ See https://developer.chrome.com/extensions/getstarted#unpacked for instructions
 
 ## Use NeoLink with your dApp
 
-Add the following javascript to your dApp:
+Add the following code to your dApp:
 
 
 ```
