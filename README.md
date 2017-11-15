@@ -13,8 +13,10 @@ yarn run start &#35; (for development with live reload)
 
 yarn run build &#35; (production)
 
+
 Your unpacked extension will be in the ./build/ folder.
 
+See: https://developer.chrome.com/extensions/getstarted#unpacked for instructions on manually loading an unpacked Chrome extension in developer mode.
 
 ## Use NeoLink with your dApp
 
