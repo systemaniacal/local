@@ -13,6 +13,8 @@ yarn run start &#35; (for development with live reload)
 
 yarn run build &#35; (production)
 
+Your unpacked extension will be in the ./build/ folder.
+
 
 ## Use NeoLink with your dApp
 
