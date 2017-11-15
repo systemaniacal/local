@@ -19,22 +19,38 @@ Add the following javascript to your dApp:
 
 
 ```
-<input type='text' id='runInvokeArgument' placeholder="setting"/>
+<input type='text' id='contractScriptHash' />
+<input type='text' id='operationName' />
+<input type='text' id='runInvokeArgument1' />
+<input type='text' id='runInvokeArgument2' />
+<input type='text' id='assetType' />
+<input type='text' id='assetAmount' />
+
 <button id="runInvokeButton">Invoke</button>
 <script>
 document.getElementById("runInvokeButton).addEventListener("click",
     function() {
-      var invokeArg = document.getElementById("runInvokeArgument").value
+      var scriptHash = document.getElementById("contractScriptHash").value
+      var operation = document.getElementById("operationName").value
+      var invokeArg1 = document.getElementById("runInvokeArgument1").value
+      var invokeArg2 = document.getElementById("runInvokeArgument2").value
+      var type = document.getElementById("assetType").value
+      var amount = document.getElementById("assetAmount").value
 
       var invocationObject = {
-        'scriptHash': '_your script hash here_',
-        'operation': 'putvalue',
-        'arg1': 'test',
-        'arg2': actionValue,
-        'assetType': 'GAS',
-        'assetAmount': '<%= action.price %>'
+        'scriptHash': scriptHash,
+        'operation': operation,
+        'arg1': invokeArg1,
+        'arg2': invokeArg2,
+        'assetType': type,
+        'assetAmount': amount
       }
-      window.postMessage({ type: "FROM_PAGE", text: actionPack }, "*");
+      window.postMessage({ type: "FROM_PAGE", text: invocationObject }, "*");
 }, false);
 </script>
 ```
+
+
+Please note that currently the code is limited to a maximum of three arguments to the smart contract.
+
+TODO: add arbritrary number of arguments
