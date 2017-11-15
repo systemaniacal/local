@@ -3,6 +3,8 @@
 
 This is a Chrome extension wallet for the Neo Smart Economy.
 
+Currently the project is undergoing heavy development and is hardcoded to only operate on TestNet.
+
 
 
 ## Setup
