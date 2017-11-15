@@ -8,9 +8,9 @@ This is a Chrome extension wallet for the Neo cryptocurrency.
 
 yarn install
 
-yarn run start (for development with live reload)
+yarn start (for development with live reload)
 
-yarn run build (production)
+yarn build (production)
 
 
 ## Use NeoLink with your dApp
