@@ -18,7 +18,7 @@ yarn run build (production)
 Add the following javascript to your dApp:
 
 
-'''
+```
 <input type='text' id='actionPayInput_<%= action.id %>' placeholder="setting"/>
 <button id="actionPayButton_<%= action.id %>">Pay</button>
 <!-- </form> -->
@@ -38,4 +38,4 @@ document.getElementById("actionPayButton_<%= action.id %>").addEventListener("cl
       window.postMessage({ type: "FROM_PAGE", text: actionPack }, "*");
 }, false);
 </script>
-'''
+```
