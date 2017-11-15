@@ -1,3 +1,6 @@
+# (GitHub-Flavored) Markdown Editor
+
+
 # NeoLink
 
 This is a Chrome extension wallet for the Neo cryptocurrency.
@@ -8,9 +11,9 @@ This is a Chrome extension wallet for the Neo cryptocurrency.
 
 yarn install
 
-yarn start (for development with live reload)
+yarn run start &#35; (for development with live reload)
 
-yarn build (production)
+yarn run build &#35; (production)
 
 
 ## Use NeoLink with your dApp
