@@ -1,5 +1,3 @@
-# (GitHub-Flavored) Markdown Editor
-
 
 # NeoLink
 
