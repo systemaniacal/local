@@ -1,7 +1,7 @@
 
 # NeoLink
 
-This is a Chrome extension wallet for the Neo cryptocurrency.
+This is a Chrome extension wallet for the Neo Smart Economy.
 
 
 
