@@ -5,6 +5,31 @@ This is a Chrome extension wallet for the Neo Smart Economy.
 
 Currently the project is undergoing heavy development and is hardcoded to only operate on TestNet.
 
+![alt](https://github.com/phetter/NeoLink/blob/master/neolink_alpha_ss.png)
+
+
+## Current Features
+
+* Open a wallet using an encyrpted WIF
+* Get a list of transactions for any known address - does not require login
+* Get the balance of any known address - does not require login
+* Send Neo or Gas to an address
+* Test invoke smart contracts, with parameters, to determine gas cost and test
+* Send invoke smart contracts with parameters and arguments
+* Authorize both types of smart contract invocations as requested by third-party dApp
+* SemVer 2.0 compliant http://semver.org/
+
+
+## Future Features
+
+* Easy selection of MainNet, TestNet, or custom private net
+* Contact book that remembers addresses used 
+* Configurable watch wallet for any saved addresses to display balances all in one view
+* Create wallet
+* Import Wallet
+* Export Wallet
+* Ledger hardware support
+* Any ideas from the community!
 
 
 ## Setup
@@ -61,3 +86,6 @@ document.getElementById("runInvokeButton).addEventListener("click",
 Please note that currently the code is limited to a maximum of three arguments to the smart contract.
 
 TODO: add arbritrary number of arguments
+
+
+
