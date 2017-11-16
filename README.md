@@ -68,9 +68,11 @@ TODO: add arbritrary number of arguments
 * Open a wallet using an encyrpted WIF
 * Get a list of transactions for any known address - does not require login
 * Get the balance of any known address - does not require login
+* Send Neo or Gas to an address
 * Test invoke smart contracts, with parameters, to determine gas cost and test
 * Send invoke smart contracts with parameters and arguments
 * Authorize both types of smart contract invocations as requested by third-party dApp
+*  SemVer 2.0 compliant http://semver.org/
 
 
 ## Future Features
