@@ -17,11 +17,12 @@ Currently the project is undergoing heavy development and is hardcoded to only o
 * Test invoke smart contracts, with parameters, to determine gas cost and test
 * Send invoke smart contracts with parameters and arguments
 * Authorize both types of smart contract invocations as requested by third-party dApp
-*  SemVer 2.0 compliant http://semver.org/
+* SemVer 2.0 compliant http://semver.org/
 
 
 ## Future Features
 
+* Easy selection of MainNet, TestNet, or custom private net
 * Contact book that remembers addresses used 
 * Configurable watch wallet for any saved addresses to display balances all in one view
 * Create wallet
@@ -29,7 +30,7 @@ Currently the project is undergoing heavy development and is hardcoded to only o
 * Export Wallet
 * Ledger hardware support
 * Any ideas from the community!
-`
+
 
 ## Setup
 
