@@ -5,7 +5,7 @@ This is a Chrome extension wallet for the Neo Smart Economy.
 
 Currently the project is undergoing heavy development and is hardcoded to only operate on TestNet.
 
-![alt](https://github.com/phetter/NeoLink/neolink_alpha_ss.png "Example Screen Shot")
+![alt](https://github.com/phetter/NeoLink/neolink_alpha_ss.png)
 
 ## Setup
 
