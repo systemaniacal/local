@@ -36,6 +36,8 @@ Currently the project is undergoing heavy development and is hardcoded to only o
 
 yarn install
 
+cd node_modules/neon-js; npm run-script build; cd ../../
+
 yarn run start &#35; (for development with live reload)
 
 yarn run build &#35; (production)
