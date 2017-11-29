@@ -20,11 +20,15 @@ Currently the project is undergoing heavy development and is hardcoded to only o
 * SemVer 2.0 compliant http://semver.org/
 
 
-## Future Features
+## Future Features and TODO
 
+* Add progress indicator for all actions to show user something is happening
+* Re-skin UI and layout
+* Refactor: lint, modularity, and clarity
 * Easy selection of MainNet, TestNet, or custom private net
-* Contact book that remembers addresses used 
+* Contact book that remembers addresses used
 * Configurable watch wallet for any saved addresses to display balances all in one view
+* Claim Gas
 * Create wallet
 * Import Wallet
 * Export Wallet
@@ -85,7 +89,4 @@ document.getElementById("runInvokeButton).addEventListener("click",
 
 Please note that currently the code is limited to a maximum of three arguments to the smart contract.
 
-TODO: add arbritrary number of arguments
-
-
-
+TODO: add arbitrary number of arguments
