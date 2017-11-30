@@ -23,8 +23,8 @@ import * as authHtml from "../html/authorize.html"
 var curNavHtml = mainNav
 var curNavLocation = 'Home'
 var loggedIn = false
-var modalContentCache = ""
-var network = ""
+var modalContentCache = ''
+var network = ''
 var useLoginAddress = false
 var address = null
 var formCache = {}
@@ -35,7 +35,7 @@ getBackgroundState()
 
 document.getElementById("nav").innerHTML = curNavHtml
 
-if (network) document.getElementById("networkStatus").innerHTML = network
+if (network) document.getElementById("activeNetwork").value = network
 
 if (!loggedIn) {
     // document.getElementById("loginNav").innerHTML = 'Login'
@@ -63,8 +63,8 @@ function getBackgroundState () {
     console.log('popup modalContentCache: '+modalContentCache)
 
     network = response.network
-    console.log('popup network: '+network)
-    document.getElementById("networkStatus").innerHTML = network
+    console.log('popup active network: '+network)
+    document.getElementById("activeNetwork").value = network
 
     useLoginAddress = response.useLoginAddress
     console.log('popup useLoginAddress: '+useLoginAddress)
@@ -144,7 +144,8 @@ function setBackgroundState () {
     useLoginAddress: useLoginAddress,
     address: address,
     curNavLocation: curNavLocation,
-    formCache: formCache
+    formCache: formCache,
+    network: network
   }
   chrome.runtime.sendMessage({'msg': 'setState', 'state': state}, function(response) {
     console.log('setting state')
@@ -155,6 +156,12 @@ function setCurNavLocation (nav) {
   curNavLocation = nav
   setBackgroundState()
 }
+
+document.getElementById('activeNetwork').addEventListener('change', () => {
+  network = activeNetwork.value
+  console.log('active network changed to: '+activeNetwork.value)
+  setBackgroundState()
+})
 
 // Setup onClick event listeners for the main navigation buttons by name.
 // This will load the HTML into popup.js for each page

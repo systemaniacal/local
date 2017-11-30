@@ -77,6 +77,7 @@ chrome.runtime.onMessage.addListener(
         state.useLoginAddress = request.state.useLoginAddress
         state.curNavLocation = request.state.curNavLocation
         state.formCache = request.state.formCache
+        state.network = request.state.network
         // console.log('state: '+state)
         console.log('bg useLoginAddress: '+state.useLoginAddress)
         break
@@ -113,7 +114,7 @@ chrome.runtime.onMessage.addListener(
 
       case 'sendInvoke': // NOTE: DOES require extension is logged in
         // TODO: make this code clearer!
-        
+
         if (!state.loggedIn) respond({'msg': 'Please login to NeoLink', 'loggedIn': state.loggedIn, 'extensionInstalled': true}, sender, sendResponse)
         else {
           if (sender.tab) { // called from dapp so lets queue for authorization by user in extension
