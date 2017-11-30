@@ -1,3 +1,7 @@
+// popup.js - Chrome extension action button and main menu
+
+// NOTE: popup.js is stateless between button presses so all activity has to
+// sync to background.js (see getBackgroundState() / setBackgroundState())
 
 import "../css/popup.css"
 import util from "util"
@@ -33,7 +37,7 @@ document.getElementById("nav").innerHTML = curNavHtml
 
 if (network) document.getElementById("networkStatus").innerHTML = network
 
-if(!loggedIn) {
+if (!loggedIn) {
     // document.getElementById("loginNav").innerHTML = 'Login'
     document.getElementById("content").innerHTML = loginHtml
     addLoginButtonEvent()
@@ -47,6 +51,8 @@ if(!loggedIn) {
       document.getElementById("content").innerHTML = authHtml
     }
 }
+
+// Send a message to background.js to get all state and store it locally in popup.js
 
 function getBackgroundState () {
   chrome.runtime.sendMessage({'msg': 'getState'}, function(response) {
@@ -80,7 +86,7 @@ function getBackgroundState () {
     console.log('auth queue: '+authQueue)
 
     if (curNavLocation === 'Home') {
-      if(!loggedIn) {
+      if (!loggedIn) {
         // document.getElementById("loginNav").innerHTML = 'Login'
         document.getElementById("content").innerHTML = loginHtml
         addLoginButtonEvent()
@@ -97,7 +103,7 @@ function getBackgroundState () {
 
             document.getElementById('authYesButton').addEventListener('click', () => {
               chrome.runtime.sendMessage({'msg': 'sendInvoke', 'authorized': true}, function(response) {
-                if(response.error) {
+                if (response.error) {
                   console.log('error: '+response.error)
                   document.getElementById("modalContent").innerHTML = '<br>error: ' + response.error
                 } else {
@@ -109,7 +115,7 @@ function getBackgroundState () {
             })
             document.getElementById('authNoButton').addEventListener('click', () => {
               chrome.runtime.sendMessage({'msg': 'sendInvoke', 'authorized': false}, function(response) {
-                if(response.error) {
+                if (response.error) {
                   console.log('error: '+response.error)
                   document.getElementById("modalContent").innerHTML = '<br>error: ' + response.error
                 } else {
@@ -128,6 +134,8 @@ function getBackgroundState () {
     // callback()
   })
 }
+
+// Update background.js with any state changes
 
 function setBackgroundState () {
   var state = {
@@ -148,10 +156,13 @@ function setCurNavLocation (nav) {
   setBackgroundState()
 }
 
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
+
 document.getElementById('homeNav').addEventListener('click', () => {
   setCurNavLocation('Home')
 
-  if(!loggedIn) {
+  if (!loggedIn) {
     // document.getElementById("loginNav").innerHTML = 'Login'
     document.getElementById("content").innerHTML = loginHtml
     addLoginButtonEvent()
@@ -163,6 +174,8 @@ document.getElementById('homeNav').addEventListener('click', () => {
   }
 })
 
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
 
 document.getElementById('sendNav').addEventListener('click', () => {
   setCurNavLocation('Send')
@@ -223,6 +236,9 @@ document.getElementById('sendNav').addEventListener('click', () => {
     })
   }
 })
+
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
 
 document.getElementById('testInvokeNav').addEventListener('click', () => {
   setCurNavLocation('Test Invoke Contract')
@@ -293,6 +309,9 @@ document.getElementById('testInvokeNav').addEventListener('click', () => {
     })
   }
 })
+
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
 
 document.getElementById('sendInvokeNav').addEventListener('click', () => {
   setCurNavLocation('Send Invoke Contract')
@@ -379,6 +398,9 @@ document.getElementById('sendInvokeNav').addEventListener('click', () => {
   }
 })
 
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
+
 document.getElementById('txsNav').addEventListener('click', () => {
   setCurNavLocation('Transactions')
 
@@ -416,6 +438,9 @@ document.getElementById('txsNav').addEventListener('click', () => {
     })
   })
 })
+
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
 
 document.getElementById('balanceNav').addEventListener('click', () => {
   setCurNavLocation('Balance')
@@ -500,17 +525,26 @@ function addLoginButtonEvent () {
   })
 }
 
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
+
 document.getElementById('createWalletNav').addEventListener('click', () => {
   setCurNavLocation('Create Wallet')
   document.getElementById("content").innerHTML = createWalletHtml
 
 })
 
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
+
 document.getElementById('importWalletNav').addEventListener('click', () => {
   setCurNavLocation('Import Wallet')
   document.getElementById("content").innerHTML = importWalletHtml
 
 })
+
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
 
 document.getElementById('exportWalletNav').addEventListener('click', () => {
   setCurNavLocation('Export Wallet')
@@ -519,6 +553,8 @@ document.getElementById('exportWalletNav').addEventListener('click', () => {
 
 })
 
+// Setup onClick event listeners for the main navigation buttons by name.
+// This will load the HTML into popup.js for each page
 
 document.getElementById('configNav').addEventListener('click', () => {
   setCurNavLocation('Config')

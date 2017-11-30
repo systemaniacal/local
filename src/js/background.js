@@ -1,9 +1,11 @@
+// background.js - Chrome extension persistent background page.
+// popup.js is stateless so it is left to background.js to store state.
+
 import '../img/icon-50.png'
 import '../img/icon-34.png'
 
 import * as neon from 'neon-js'
 import util from "util"
-
 
 // var address='AJXixUHZZsSZTrrP7ZpRqKbY2HzRawf8cB'
 
@@ -40,12 +42,15 @@ console.log("in background")
 //
 // });
 
+// This runs every time the chrome extension is installed; mainly for
+// debugging at this point.
+
 chrome.runtime.onInstalled.addListener(function () {
   console.log('installed!')
 })
 
-
-// main action message handler
+// Main action message handler for background.js
+// All communication with the extension runs through here
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
@@ -57,14 +62,16 @@ chrome.runtime.onMessage.addListener(
 
     switch (request.msg)
     {
-      case "contentInit":
+      case 'contentInit':
         sendResponse({'msg': 'extension is online', 'loggedIn': state.loggedIn, 'extensionInstalled': true})
-      break;
-      case "getState":
+      break
+
+      case 'getState':
         // sendResponse({'loggedIn': state.loggedIn, 'modalContentCache': state.modalContentCache})
         sendResponse(state)
-        break;
-      case "setState":
+        break
+
+      case 'setState':
         state.loggedIn = request.state.loggedIn
         state.modalContentCache = request.state.modalContentCache
         state.useLoginAddress = request.state.useLoginAddress
@@ -72,33 +79,41 @@ chrome.runtime.onMessage.addListener(
         state.formCache = request.state.formCache
         // console.log('state: '+state)
         console.log('bg useLoginAddress: '+state.useLoginAddress)
+        break
 
-        break;
-      case "createWallet":
-        break;
-      case "exportWallet":
-        break;
-      case "loginWif":
+      case 'createWallet':
+        break
+
+      case 'exportWallet':
+        break
+
+      case 'loginWif':
         loginWif((e, account, loggedIn) => {
           sendResponse({'account': account, 'error': e, 'loggedIn': state.loggedIn})
         }, request.encryptedWif, request.passphrase)
-        break;
-      case "logout":
+        break
+
+      case 'logout':
         state.loggedIn = false
         state.wif = null
         state.address = null
-        break;
-      case "send":
+        break
+
+      case 'send':
         send((e, res, tx) => {
           sendResponse({'msg': res, 'error': e})
         }, request.tx)
-        break;
-      case "testInvoke": // NOTE: does NOT require extension is logged in
+        break
+
+      case 'testInvoke': // NOTE: does NOT require extension is logged in
         testInvokeContract((e, res, tx) => {
           sendResponse({'msg': res, 'error': e})
         }, request.tx)
-        break;
-      case "sendInvoke": // NOTE: DOES require extension is logged in
+        break
+
+      case 'sendInvoke': // NOTE: DOES require extension is logged in
+        // TODO: make this code clearer!
+        
         if (!state.loggedIn) respond({'msg': 'Please login to NeoLink', 'loggedIn': state.loggedIn, 'extensionInstalled': true}, sender, sendResponse)
         else {
           if (sender.tab) { // called from dapp so lets queue for authorization by user in extension
@@ -127,23 +142,30 @@ chrome.runtime.onMessage.addListener(
             }, request.tx)
           }
         }
-        break;
-      case "claim":
-        break;
-      case "getBalance":
+        break
+
+      case 'claim':
+        break
+
+      case 'getBalance':
         getBalance((e, res, address) => {
           sendResponse({'bals': res, 'address': address, 'error': e})
         }, request.address)
-        break;
-      case "getTransactionHistory":
+        break
+
+      case 'getTransactionHistory':
         getTransactionHistory((e, txs) => {
           sendResponse({'msg': txs, 'error': e})
         }, request.args)
-        break;
+        break
+
     }
     console.log('logged in: '+state.loggedIn)
     return true
 })
+
+// This is a bit of kludge to decide if we are talking to content scriptHash
+// or some core extension component
 
 function respond (response, sender, sendResponse) {
   if (sender.tab) { // we are talking to the content script
@@ -158,6 +180,9 @@ function respond (response, sender, sendResponse) {
   }
 }
 
+// Call neon-js to get a list of transactions - doesnt require you to be logged
+//
+
 function getTransactionHistory (callback, address) {
   neon.getTransactionHistory(state.network, address)
     .then((transactions) => {
@@ -170,6 +195,8 @@ function getTransactionHistory (callback, address) {
     })
 }
 
+// Call neon-js to get the balanc of an address - doesnt require logged in status
+
 function getBalance (callback, address) {
   neon.getBalance(state.network, address)
     .then((response) => {
@@ -181,6 +208,9 @@ function getBalance (callback, address) {
       throw e
     })
 }
+
+// Decrypt a WIF, if successful return logged in state and account details
+// TODO: look at restructuring state to reduce code
 
 function loginWif (callback, encryptedWif, passphrase) {
   console.log('bg word: '+passphrase)
@@ -199,6 +229,8 @@ function loginWif (callback, encryptedWif, passphrase) {
       throw e
     })
 }
+
+// Call neon-js to send a neon asset to an address
 
 function send (callback, tx) {
   // const selfAddress = address
@@ -224,14 +256,18 @@ function send (callback, tx) {
     })
 }
 
-
 function String2Hex (tmp) {
     var str = '';
     for(var i = 0; i < tmp.length; i++) {
-        str += tmp[i].charCodeAt(0).toString(16);
+        str += tmp[i].charCodeAt(0).toString(16)
     }
-    return str;
+    return str
 }
+
+// Call neon-js to test invoke a smart contract.
+// This will get the cost in gas, if any, for the sc execution
+// TODO: look at error handling
+// TODO: improve transaction result formatting
 
 function testInvokeContract (callback, tx) {
   const assetType = tx.type === ASSETS_LABELS.NEO ? ASSETS.NEO : ASSETS.GAS
@@ -276,6 +312,12 @@ function testInvokeContract (callback, tx) {
       callback(''+e)      // throw e
     })
 }
+
+// Call neon-js to send invoke a smart contract.
+// This will execute the contract operation and requires an amount be passed
+// along.
+// TODO: look at error handling
+// TODO: improve transaction result formatting
 
 function sendInvokeContract (callback, tx) {
   const assetType = tx.type === ASSETS_LABELS.NEO ? ASSETS.NEO : ASSETS.GAS
