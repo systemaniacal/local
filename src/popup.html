@@ -7,7 +7,12 @@
 <body>
   <img class="logo" src="img/icon-50.png" hspace="25" align="left" height="50" width="50">
   <h1 class="neoLink">NeoLink</h1>
-  <div class="netStat" id="networkStatus"></div>
+  <div class="netStat">
+    <select id='activeNetwork'>
+      <option value="TestNet">TestNet</option>
+      <option value="MainNet" selected="selected">MainNet</option>
+    </select>
+  </div>
   <div id="nav"></div>
   <div id="content"></div>
 </body>
