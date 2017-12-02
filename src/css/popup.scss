@@ -42,6 +42,8 @@ html, body {
     }
   }
 
+
+  //Loader ring design
   .ring-1 {
     width: 10px;
     height: 10px;
@@ -51,15 +53,15 @@ html, body {
     border-radius: 100%;
   }
 
+  //Loader animation
   .ring-1 {animation: loadingD 1.5s .3s cubic-bezier(.17,.37,.43,.67) infinite;}
 
+  //Loader animation Keyframes
   @keyframes loadingD {
     0% {transform: rotate(0deg);}
     50% {transform: rotate(180deg);}
     100% {transform: rotate(360deg);}
   }
-
-
 
 
   input {
