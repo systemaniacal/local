@@ -507,10 +507,14 @@ function addLoginButtonEvent () {
     var passphrase = document.getElementById("loginWifPassphrase").value
     console.log('wif:'+passphrase)
 
+    document.getElementById("content").innerHTML = "<div class=\"ring-1\"></div>"
+
     chrome.runtime.sendMessage({'msg': 'loginWif', 'encryptedWif': wif, 'passphrase': passphrase}, function(response) {
       if(response.error) {
         console.log('error: '+util.inspect(response.error, {depth: null}))
         // document.getElementById("modalContent").innerHTML = '<br>Address not found'
+          document.getElementById("content").innerHTML = loginHtml
+
       } else {
         console.log(response)
         console.log('loggedIn:'+response.loggedIn)
