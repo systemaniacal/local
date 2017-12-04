@@ -14,20 +14,29 @@ Currently the project is undergoing heavy development and is hardcoded to only o
 * Get a list of transactions for any known address - does not require login
 * Get the balance of any known address - does not require login
 * Send Neo or Gas to an address
+* Easily switch between TestNet and MainNet
 * Test invoke smart contracts, with parameters, to determine gas cost and test
 * Send invoke smart contracts with parameters and arguments
 * Authorize both types of smart contract invocations as requested by third-party dApp
 * SemVer 2.0 compliant http://semver.org/
 
 
-## Future Features
+## Future Features and TODO
 
+* Add progress indicator for all actions to show user something is happening
+* Add global status bar or modal system
+* Add custom network configuration
+* Add persistent storage of user configuration
+* Re-skin UI and layout
+* Refactor: lint, modularity, and clarity
 * Easy selection of MainNet, TestNet, or custom private net
-* Contact book that remembers addresses used 
+* Contact book that remembers addresses used
 * Configurable watch wallet for any saved addresses to display balances all in one view
+* Claim Gas
 * Create wallet
 * Import Wallet
 * Export Wallet
+* Add arbitrary number of arguments for smart contract invocation
 * Ledger hardware support
 * Any ideas from the community!
 
@@ -86,8 +95,3 @@ document.getElementById("runInvokeButton).addEventListener("click",
 
 
 Please note that currently the code is limited to a maximum of three arguments to the smart contract.
-
-TODO: add arbritrary number of arguments
-
-
-

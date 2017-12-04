@@ -1,4 +1,6 @@
-// this gets injected into all pages currently
+// content.js - currently this gets injected into all web pages when extension
+// is running]
+
 import util from 'util'
 
 var loggedIn = false
@@ -6,8 +8,9 @@ var extensionInstalled = false
 
 // var port = chrome.runtime.connect();
 
-// listen for messages that are the results of invocations sent from the dapp through the content script
-// these come from the background script in the extension
+// Listen for messages that are the results of invocations sent from the dapp through the content script.
+// These come from the background script in the extension.
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   var result = ''
   if(request.error) {
@@ -32,11 +35,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     result: result
   }
   // send message back to api page
-  window.postMessage(extState, "*");
+  window.postMessage(extState, '*')
 })
 
-// send a content script notification to the background script to track state
-// on content initialization
+// Send a content script notification to the background script to track state
+// on content initialization.
+
 chrome.runtime.sendMessage({'msg': 'contentInit'}, function(response) {
   if (response.error) {
     console.log('contentInit error: '+response.error)
@@ -55,18 +59,20 @@ chrome.runtime.sendMessage({'msg': 'contentInit'}, function(response) {
       extensionInstalled: extensionInstalled
     }
     // send message back to api page
-    window.postMessage(extState, "*");
+    window.postMessage(extState, '*')
   }
 })
 
-// listen for messages from the page to do invocations
-window.addEventListener("message", function(event) {
+// Listen for messages from the page to do smart contract invocations.
+// TODO: this should first do a test to determine gas cost and THEN do send
+
+window.addEventListener('message', function(event) {
   // We only accept messages from ourselves
   if (event.source != window)
     return;
 
-  if (event.data.type && (event.data.type == "FROM_PAGE")) {
-    console.log("Content script received: " + util.inspect(event.data.text, {depth: null}));
+  if (event.data.type && (event.data.type == 'FROM_PAGE')) {
+    console.log('Content script received: ' + util.inspect(event.data.text, {depth: null}))
     // window.postMessage(event.data.text, "*");
     // window.postMessage(event.data.text, "*");
     var extState = {
@@ -76,17 +82,19 @@ window.addEventListener("message", function(event) {
     // send message back to api page
     // window.postMessage(extState, "*");
 
-    var scriptHash = event.data.text.scriptHash;
-    var operation = event.data.text.operation;
-    var assetType = event.data.text.assetType;
-    var assetAmount = event.data.text.assetAmount;
-    var arg1 = event.data.text.arg1;
-    var arg2 = event.data.text.arg2;
+    var scriptHash = event.data.text.scriptHash
+    var operation = event.data.text.operation
+    var assetType = event.data.text.assetType
+    var assetAmount = event.data.text.assetAmount
+    var arg1 = event.data.text.arg1
+    var arg2 = event.data.text.arg2
 
-    // send an invoke to the extension background page
+    // Send an invoke to the extension background page.
     sendInvoke (scriptHash, operation, arg1, arg2, assetType, assetAmount)
   }
 })
+
+// Send a message to background.js to run a smart contract test invoke
 
 function testInvoke (scriptHash, operation, arg1, arg2, assetType, assetAmount ) {
   var args = [arg1, arg2]
@@ -97,14 +105,16 @@ function testInvoke (scriptHash, operation, arg1, arg2, assetType, assetAmount )
   chrome.runtime.sendMessage({'msg': 'testInvoke', 'tx': tx}, function(response) {
     if (response.error) {
       console.log('contentInit testInvoke error: '+response.error)
-      window.postMessage(response.error, "*")
+      window.postMessage(response.error, '*')
     } else {
       console.log('contentInit testInvoke response: '+response.msg)
       // TODO: send invoke result to page
-      window.postMessage(response.msg, "*");
+      window.postMessage(response.msg, '*')
     }
   })
 }
+
+// Send a message to background.js to run a smart contract send invoke
 
 function sendInvoke (scriptHash, operation, arg1, arg2, assetType, assetAmount) {
   console.log('invoking contract from content script')
@@ -117,12 +127,12 @@ function sendInvoke (scriptHash, operation, arg1, arg2, assetType, assetAmount) 
   chrome.runtime.sendMessage({'msg': 'sendInvoke', 'tx': tx}, function(response) {
     if (response && response.error) {
       console.log('contentInit sendInvoke error: '+response.error)
-      window.postMessage(response.error, "*");
+      window.postMessage(response.error, '*')
 
     } else if (response && response.msg){
       console.log('contentInit sendInvoke response: '+response.msg)
       // TODO: send invoke result to page
-      window.postMessage(response.msg, "*");
+      window.postMessage(response.msg, '*')
     } else {
       console.log('content sendInvoke unexpected error')
     }
