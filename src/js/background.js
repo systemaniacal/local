@@ -11,7 +11,7 @@ import util from "util"
 
 var state = {
   loggedIn: false,
-  modalContentCache: "",
+  modalContentCache: '',
   network: 'TestNet',
   wif: null,
   useLoginAddress: false,
@@ -98,6 +98,7 @@ chrome.runtime.onMessage.addListener(
         state.loggedIn = false
         state.wif = null
         state.address = null
+        sendResponse()
         break
 
       case 'send':
