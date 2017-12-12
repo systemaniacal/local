@@ -19,6 +19,7 @@ import * as importWalletHtml from '../html/importWallet.html'
 import * as exportWalletHtml from '../html/exportWallet.html'
 import * as configHtml from '../html/config.html'
 import * as authHtml from '../html/authorize.html'
+import * as authResultHtml from '../html/authorizeResult.html'
 
 var curNavHtml = mainNav
 var curNavLocation = 'Home'
@@ -85,24 +86,28 @@ function getBackgroundState (state = undefined, callback) {
 
           document.getElementById('authYesButton').addEventListener('click', () => {
             chrome.runtime.sendMessage({'msg': 'sendInvoke', 'authorized': true}, function(response) {
+              document.getElementById('content').innerHTML = authResultHtml
+              
               if (response.error) {
                 console.log('error: '+response.error)
                 document.getElementById('modalContent').innerHTML = '<br>error: ' + response.error
               } else {
                 console.log(response.msg)
-                var content = response.msg
+                var content = 'You authorized a transaction: <br>'+response.msg
                 document.getElementById('modalContent').innerHTML = content
               }
             })
           })
           document.getElementById('authNoButton').addEventListener('click', () => {
             chrome.runtime.sendMessage({'msg': 'sendInvoke', 'authorized': false}, function(response) {
+              document.getElementById('content').innerHTML = authResultHtml
+
               if (response.error) {
                 console.log('error: '+response.error)
                 document.getElementById("modalContent").innerHTML = '<br>error: ' + response.error
               } else {
                 console.log(response.msg)
-                var content = response.msg
+                var content = 'You did not authorize a transaction: <br>'+response.msg
                 document.getElementById('modalContent').innerHTML = content
               }
             })
@@ -158,6 +163,35 @@ getBackgroundState(null, () => {
         addLogoutButtonEvent()
       } else {
         document.getElementById('content').innerHTML = authHtml
+
+        document.getElementById('authYesButton').addEventListener('click', () => {
+          chrome.runtime.sendMessage({'msg': 'sendInvoke', 'authorized': true}, function(response) {
+            document.getElementById('content').innerHTML = authResultHtml
+
+            if (response.error) {
+              console.log('error: '+response.error)
+              document.getElementById('modalContent').innerHTML = '<br>error: ' + response.error
+            } else {
+              console.log(response.msg)
+              var content = 'You authorized a transaction: <br>'+response.msg
+              document.getElementById('modalContent').innerHTML = content
+            }
+          })
+        })
+        document.getElementById('authNoButton').addEventListener('click', () => {
+          chrome.runtime.sendMessage({'msg': 'sendInvoke', 'authorized': false}, function(response) {
+            document.getElementById('content').innerHTML = authResultHtml
+
+            if (response.error) {
+              console.log('error: '+response.error)
+              document.getElementById("modalContent").innerHTML = '<br>error: ' + response.error
+            } else {
+              console.log(response.msg)
+              var content = 'You did not authorize a transaction: <br>'+response.msg
+              document.getElementById('modalContent').innerHTML = content
+            }
+          })
+        })
       }
   }
 

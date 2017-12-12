@@ -1,7 +1,7 @@
 {
   "name": "NeoLink",
-  "version": "0.1.28",
-  "description": "A Chrome Extension Wallet for the Neo Cryptocurrency",
+  "version": "0.1.29",
+  "description": "A Chrome Extension Wallet for the Neo Smart Economy",
   "scripts": {
     "build": "node utils/build.js",
     "start": "node utils/webserver.js"
@@ -19,5 +19,6 @@
   },
   "dependencies": {
     "neon-js": "git+https://github.com/phetter/neon-js.git"
-  }
+  },
+  "license": "MIT"
 }
