@@ -1,5 +1,5 @@
 .header {
-  background-color: #86d13e;
+  background-color: #388E3C;
   height: 65px;
 }
 
@@ -11,15 +11,20 @@
   display: inline-block;
   height: 35px;
   width: 35px;
+  cursor: pointer;
 }
 
 .titleWrapper {
   vertical-align: top;
   padding: 5px;
   display: inline-block;
+  margin-top:-5px;
 }
 
 .titleName {
-  font-size: 20px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 28px;
   color: white;
+  cursor: default;
 }

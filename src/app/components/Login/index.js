@@ -1,105 +1,128 @@
-import React, { Component } from 'react'
-import Neon, { wallet } from '@cityofzion/neon-js'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import Neon, {wallet} from '@cityofzion/neon-js'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
 import 'preact-material-components/Theme/style.css'
 
+import TextField from 'preact-material-components/TextField';
+import 'preact-material-components/TextField/style.css';
+
 import * as AccountActions from '../../actions/account'
 
+
 @connect(
-  state => ({
-    account: state.account
-  }),
-  dispatch => ({
-    actions: bindActionCreators(AccountActions, dispatch)
-  })
+	state => ({
+		account: state.account
+	}),
+	dispatch => ({
+		actions: bindActionCreators(AccountActions, dispatch)
+	})
 )
 
 export default class Login extends Component {
-  state = {
-    errorMsg: '',
-    loading: false
-  }
+	state = {
+		errorMsg: '',
+		loading: false,
+		encryptedWif: '',
+		passPhrase: ''
+	}
 
-  decryptWallet = (encryptedWif, passphrase) => {
-    return new Promise((resolve, reject) => {
-      const wif = wallet.decrypt(encryptedWif, passphrase)
 
-      if (!wif) {
-        reject(new Error("Couldn't load account"))
-      } else {
-        resolve(wif)
-      }
-    })
-  }
+	_handleTextFieldChange = (e) => {
+		const key = e.target.id
+		this.setState({
+			[key] : e.target.value
+		})
+	}
 
-  handleSubmit = (event) => {
-    event.preventDefault()
 
-    this.setState({
-      loading: true,
-      errorMsg: ''
-    })
+	decryptWallet = (encryptedWif, passphrase) => {
+		return new Promise((resolve, reject) => {
+			const wif = wallet.decrypt(encryptedWif, passphrase)
 
-    this.decryptWallet(this.encryptedWif.value, this.passphrase.value)
-      .then((wif) => {
-        const { actions } = this.props
-        this.setState({ loading: false })
-        actions.setAccount(wif)
-      })
-      .catch((e) => {
-        this.setState({ loading: false, errorMessage: 'Incorrect credentials.' })
-      })
-  }
+			if (!wif) {
+				reject(new Error("Couldn't load account"))
+			} else {
+				resolve(wif)
+			}
+		})
+	}
 
-  handleClick = (e) => {
-    const { actions } = this.props
-    e.preventDefault()
-    actions.setAccount('')
-  }
+	handleSubmit = (event) => {
+		console.log('Submit');
+		event.preventDefault()
 
-  render () {
-    const { loading, errorMsg } = this.state
-    const { account } = this.props
+		this.setState({
+			loading: true,
+			errorMsg: ''
+		})
 
-    if (account.wif !== '') {
-      const myAccount = Neon.create.account(account.wif)
-      return (
-        <div>
-          <p>Logged In</p>
-          <Button ripple raised onClick={this.handleClick}>
-            Logout
-          </Button>
-          <div>Address: {myAccount.address}</div>
-          <div>Public key encoded: {myAccount.getPublicKey(true)}</div>
-        </div>
-      )
-    }
-    return (
-      <div>
-        <p>Login</p>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type='text'
-            placeholder='Encrypted WIF'
-            ref={(input) => { this.encryptedWif = input }}
-          />
-          <input
-            type='password'
-            placeholder='Passphrase'
-            ref={(input) => { this.passphrase = input }}
-          />
-          <button>Login</button>
-        </form>
-        { loading &&
-          <div>Loading...</div>
-        }
-        { errorMsg !== '' &&
-          <div>ERROR: {errorMsg}</div>
-        }
-      </div>
-    )
-  }
+		this.decryptWallet(this.state.encryptedWif, this.state.passPhrase)
+			.then((wif) => {
+				const {actions} = this.props
+				this.setState({loading: false})
+				actions.setAccount(wif)
+			})
+			.catch((e) => {
+				console.log('Incorrect credentials.')
+				this.setState({loading: false, errorMessage: 'Incorrect credentials.'})
+			})
+	}
+
+	handleClick = (e) => {
+		const {actions} = this.props
+		e.preventDefault()
+		actions.setAccount('')
+	}
+
+	render() {
+		const {loading, errorMsg} = this.state
+		const {account} = this.props
+
+		if (account.wif !== '') {
+			const myAccount = Neon.create.account(account.wif)
+			return (
+				<div>
+					<Button ripple raised onClick={this.handleClick}>
+						Logout
+					</Button>
+					<div style="margin-top:20px;">
+						<div style="width:100%; display:block; word-wrap: break-word;"><span style="word-wrap: break-word;">Address: {myAccount.address}</span></div>
+						<div style="margin-top:10px; width:100%; display:block; word-wrap: break-word;"><span style="word-wrap: break-word;">Public key encoded: {myAccount.getPublicKey(true)}</span></div>
+					</div>
+				</div>
+			)
+		}
+		return (
+			<div>
+				<form onSubmit={this.handleSubmit}>
+					<TextField
+						type='text'
+						placeholder='Encrypted WIF'
+						value={this.state.encryptedWif}
+						id="encryptedWif"
+						onChange={this._handleTextFieldChange}
+					/>
+					<TextField
+						type='password'
+						placeholder='Passphrase'
+						value={this.state.passPhrase}
+						id="passPhrase"
+						onChange={this._handleTextFieldChange}
+					/>
+					<div>
+						<Button raised ripple >Login</Button>
+					</div>
+				</form>
+				{loading &&
+				<div>Loading...</div>
+				}
+				{errorMsg !== '' &&
+				<div>ERROR: {errorMsg}</div>
+				}
+			</div>
+		)
+	}
 }
