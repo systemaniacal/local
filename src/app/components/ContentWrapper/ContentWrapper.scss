@@ -30,21 +30,26 @@
   justify-content: center;
   flex-direction: column;
   div {
-    width: 90%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
   }
+
   form {
     margin-top: -50px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width:100%;
+    width: 100%;
   }
+
+  select {
+    width: 100px;
+  }
+
   button {
-    margin-top:20px;
+    margin-top: 20px;
   }
 }

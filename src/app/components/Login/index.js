@@ -89,8 +89,8 @@ export default class Login extends Component {
 						Logout
 					</Button>
 					<div style="margin-top:20px;">
-						<div style="width:100%; display:block; word-wrap: break-word;"><span style="word-wrap: break-word;">Address: {myAccount.address}</span></div>
-						<div style="margin-top:10px; width:100%; display:block; word-wrap: break-word;"><span style="word-wrap: break-word;">Public key encoded: {myAccount.getPublicKey(true)}</span></div>
+						<div style="width:200px; display:block; word-wrap: break-word;"><span style="word-wrap: break-word;">Address: {myAccount.address}</span></div>
+						<div style="margin-top:10px; width:200px; display:block; word-wrap: break-word;"><span style="word-wrap: break-word;">Public key encoded: {myAccount.getPublicKey(true)}</span></div>
 					</div>
 				</div>
 			)
