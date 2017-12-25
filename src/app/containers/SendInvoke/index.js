@@ -138,7 +138,7 @@ export default class SendInvoke extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} style="padding-top:35px;">
           <TextField
             type='text'
             placeholder='Script Hash'
@@ -189,7 +189,7 @@ export default class SendInvoke extends Component {
             <Select.Item>NEO</Select.Item>
             <Select.Item>GAS</Select.Item>
           </Select>
-          <button disabled={loading}>Invoke</button>
+          <Button raised ripple disabled={loading}>Invoke</Button>
         </form>
 
         {txid &&
