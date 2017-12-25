@@ -35,7 +35,7 @@ export default class Transactions extends Component {
 		const {network} = this.props
 		this.setState({
 			loading: true,
-			transactions: [],
+      transactions: [],
 			errorMsg: '',
 			address: ''
 		})

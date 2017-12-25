@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
 import style from './ContentWrapper.css'
 
 export default class Header extends Component {
-  render () {
+  render() {
     return (
       <div className={style.wrapper}>
         <div className={style.innerWrapper}>
