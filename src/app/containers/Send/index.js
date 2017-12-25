@@ -129,7 +129,7 @@ export default class Send extends Component {
 							}}
 					>
 						<Select.Item>NEO</Select.Item>
-						<Select.Item aria-selected="">GAS</Select.Item>
+						<Select.Item>GAS</Select.Item>
 					</Select>
 
 

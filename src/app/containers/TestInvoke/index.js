@@ -1,123 +1,149 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 
-import Neon, { api } from '@cityofzion/neon-js'
+import Neon, {api} from '@cityofzion/neon-js'
+import Button from 'preact-material-components/Button'
+import 'preact-material-components/Button/style.css'
+import 'preact-material-components/Theme/style.css'
+import TextField from 'preact-material-components/TextField'
+import 'preact-material-components/TextField/style.css'
 
 @connect(
-  state => ({
-    network: state.network
-  })
+	state => ({
+		network: state.network
+	})
 )
 
 export default class TestInvoke extends Component {
-  state = {
-    errorMsg: '',
-    loading: false
-  }
+	state = {
+		errorMsg: '',
+		loading: false,
+		scriptHash: '',
+		arg1: '',
+		arg2: '',
+		operation: '',
+	}
 
-  resetState = () => {
-    this.setState({
-      errorMsg: '',
-      loading: false,
-      result: ''
-    })
-  }
+	resetState = () => {
+		this.setState({
+			errorMsg: '',
+			loading: false,
+			scriptHash: '',
+			arg1: '',
+			arg2: '',
+			operation: '',
+		})
+	}
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-    const { network } = this.props
-    this.setState({
-      loading: true,
-      errorMsg: '',
-      result: ''
-    })
+	_handleTextFieldChange = (e) => {
+		const key = e.target.id
+		this.setState({
+			[key]: e.target.value
+		})
+	}
 
-    if (!this.scriptHash || !this.scriptHash.value || !this.operation || !this.operation.value) {
-      this.setState({
-        loading: false,
-        errorMsg: 'Error! Script hash and operation are both required!'
-      })
+	handleSubmit = (event) => {
+		event.preventDefault()
+		const {network} = this.props
+		this.setState({
+			loading: true,
+			errorMsg: '',
+			result: ''
+		})
 
-      return
-    }
+		if (!this.state.scriptHash || !this.state.operation) {
+			this.setState({
+				loading: false,
+				errorMsg: 'Error! Script hash and operation are both required!'
+			})
 
-    const txArgs = []
-    if (this.arg1) {
-      txArgs.push(this.arg1.value)
-    }
+			return
+		}
 
-    if (this.arg2) {
-      txArgs.push(this.arg2.value)
-    }
+		const txArgs = []
+		if (this.arg1) {
+			txArgs.push(this.state.arg1)
+		}
 
-    const args = []
-    txArgs.forEach((arg) => {
-      if (arg !== '') args.push({'type': 7, 'value': arg})
-    })
+		if (this.arg2) {
+			txArgs.push(this.state.arg2)
+		}
 
-    const query = Neon.create.query({
-      method: 'invokefunction',
-      params: [this.scriptHash.value, this.operation.value, args]
-    })
-    api.neonDB.getRPCEndpoint(network.name)
-      .then((endpoint) => {
-        query.execute(endpoint)
-          .then((response) => {
-            this.setState({
-              loading: false,
-              result: response.result
-            })
-          })
-      })
-      .catch((e) => {
-        this.setState({
-          loading: false,
-          errorMsg: 'Error testing invoke.'
-        })
-      })
-  }
+		const args = []
+		txArgs.forEach((arg) => {
+			if (arg !== '') args.push({'type': 7, 'value': arg})
+		})
 
-  render () {
-    const { result, loading, errorMsg } = this.state
+		const query = Neon.create.query({
+			method: 'invokefunction',
+			params: [this.state.scriptHash, this.state.operation, args]
+		})
 
-    return (
-      <div>
-        <p>Invoke Contract</p>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type='text'
-            placeholder='Operation'
-            ref={(input) => { this.operation = input }}
-          />
-          <input
-            type='text'
-            placeholder='Argument 1'
-            ref={(input) => { this.arg1 = input }}
-          />
-          <input
-            type='text'
-            placeholder='Argument 2'
-            ref={(input) => { this.arg2 = input }}
-          />
-          <input
-            type='text'
-            placeholder='Script Hash'
-            ref={(input) => { this.scriptHash = input }}
-          />
-          <button>Invoke</button>
-        </form>
-        { result &&
-          <div>
-            result: { JSON.stringify(result) }
-          </div>
-        }
-        { loading &&
-          <div>Loading...</div>
-        }
-        { errorMsg !== '' &&
-          <div>ERROR: {errorMsg}</div>
-        }
-      </div>
-    )
-  }
+		api.neonDB.getRPCEndpoint(network.name)
+			.then((endpoint) => {
+				query.execute(endpoint)
+					.then((response) => {
+						this.setState({
+							loading: false,
+							result: response.result
+						})
+					})
+			})
+			.catch((e) => {
+				this.setState({
+					loading: false,
+					errorMsg: 'Error testing invoke.'
+				})
+			})
+	}
+
+	render() {
+		const {result, loading, errorMsg} = this.state
+		return (
+			<div>
+				<form onSubmit={this.handleSubmit}>
+					<TextField
+						type='text'
+						placeholder='Script Hash'
+						value={this.state.scriptHash}
+						id="scriptHash"
+						onChange={this._handleTextFieldChange}
+					/>
+					<TextField
+						type='text'
+						placeholder='Operation'
+						value={this.state.operation}
+						id="operation"
+						onChange={this._handleTextFieldChange}
+					/>
+					<TextField
+						type='text'
+						placeholder='Argument 1'
+						value={this.state.arg1}
+						id="arg1"
+						onChange={this._handleTextFieldChange}
+					/>
+					<TextField
+						type='text'
+						placeholder='Argument 2'
+						value={this.state.arg2}
+						id="arg2"
+						onChange={this._handleTextFieldChange}
+					/>
+					<Button raised ripple>Invoke</Button>
+				</form>
+				{result &&
+				<div>
+					result: {JSON.stringify(result)}
+				</div>
+				}
+				{loading &&
+				<div>Loading...</div>
+				}
+				{errorMsg !== '' &&
+				<div>ERROR: {errorMsg}</div>
+				}
+			</div>
+		)
+	}
 }
