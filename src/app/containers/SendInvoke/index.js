@@ -8,7 +8,8 @@ import style from './SendInvoke.css'
 @connect(
   state => ({
     network: state.network,
-    account: state.account
+    account: state.account,
+    transactions: state.transactions
   })
 )
 
@@ -48,7 +49,8 @@ export default class SendInvoke extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network, account } = this.props
+    const { network, account, onSuccess } = this.props
+
     this.setState({
       loading: true,
       errorMsg: '',
@@ -88,6 +90,10 @@ export default class SendInvoke extends Component {
             loading: false,
             txid: c.response.txid
           })
+
+          if (onSuccess) {
+            onSuccess(c.response)
+          }
         } else {
           this.setState({
             loading: false,
@@ -106,6 +112,7 @@ export default class SendInvoke extends Component {
 
   render () {
     const { txid, loading, errorMsg } = this.state
+    const { transaction } = this.props
 
     return (
       <div>
@@ -115,32 +122,44 @@ export default class SendInvoke extends Component {
             autoFocus
             type='text'
             placeholder='Operation'
+            readOnly={transaction !== null}
+            defaultValue={transaction !== null && transaction.operation}
             ref={(input) => { this.operation = input }}
           />
           <input
             type='text'
             placeholder='Argument 1'
+            readOnly={transaction !== null}
+            defaultValue={transaction !== null && transaction.args[0]}
             ref={(input) => { this.arg1 = input }}
           />
           <input
             type='text'
             placeholder='Argument 2'
+            readOnly={transaction !== null}
+            defaultValue={transaction !== null && transaction.args[1]}
             ref={(input) => { this.arg2 = input }}
           />
           <input
             type='text'
             placeholder='Script Hash'
+            readOnly={transaction !== null}
+            defaultValue={transaction !== null && transaction.scriptHash}
             ref={(input) => { this.scriptHash = input }}
           />
           <input
             type='text'
             placeholder='Amount'
+            readOnly={transaction !== null}
+            defaultValue={transaction !== null && transaction.amount}
             ref={(input) => { this.amount = input }}
           />
 
           <label htmlFor='assetType'>Type:</label>
           <select
             id='assetType'
+            readOnly={transaction !== null}
+            defaultValue={transaction !== null && transaction.type}
             ref={(input) => { this.type = input }}
           >
             <option value='NEO'>Neo</option>
