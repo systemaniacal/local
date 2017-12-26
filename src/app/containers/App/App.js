@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {Switch, Route} from 'react-router-dom'
 
 import Home from '../Home'
@@ -18,22 +18,22 @@ import ContentWrapper from '../../components/ContentWrapper'
 import style from './App.css'
 
 export default class App extends Component {
-  render() {
+  render () {
     return (
       <div className={style.popup}>
-        <Header/>
+        <Header />
         <ContentWrapper>
           <Switch>
-            <Route path='/send' component={Send}/>
-            <Route path='/testInvoke' component={TestInvoke}/>
-            <Route path='/sendInvoke' component={SendInvoke}/>
-            <Route path='/transactions' component={Transactions}/>
-            <Route path='/balance' component={Balance}/>
-            <Route path='/createWallet' component={CreateWallet}/>
-            <Route path='/importWallet' component={ImportWallet}/>
-            <Route path='/exportWallet' component={ExportWallet}/>
-            <Route path='/config' component={Config}/>
-            <Route path='/' component={Home}/>
+            <Route path='/send' component={Send} />
+            <Route path='/testInvoke' component={TestInvoke} />
+            <Route path='/sendInvoke' component={SendInvoke} />
+            <Route path='/transactions' component={Transactions} />
+            <Route path='/balance' component={Balance} />
+            <Route path='/createWallet' component={CreateWallet} />
+            <Route path='/importWallet' component={ImportWallet} />
+            <Route path='/exportWallet' component={ExportWallet} />
+            <Route path='/config' component={Config} />
+            <Route path='/' component={Home} />
           </Switch>
         </ContentWrapper>
       </div>
