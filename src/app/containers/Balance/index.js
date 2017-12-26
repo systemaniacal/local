@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 
-import { api } from '@cityofzion/neon-js'
+import {api} from '@cityofzion/neon-js'
 import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
 import 'preact-material-components/Theme/style.css'
@@ -45,7 +45,7 @@ export default class Balance extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network } = this.props
+    const {network} = this.props
     this.setState({
       loading: true,
       haveBalance: false,
@@ -63,12 +63,12 @@ export default class Balance extends Component {
         })
       })
       .catch((e) => {
-        this.setState({ loading: false, errorMessage: 'Could not retrieve the balance for this address.' })
+        this.setState({loading: false, errorMessage: 'Could not retrieve the balance for this address.'})
       })
   }
 
   render() {
-    const { haveBalance, errorMsg, loading, NEO, GAS, address } = this.state
+    const {haveBalance, errorMsg, loading, NEO, GAS, address} = this.state
 
     return (
       <div>
@@ -83,17 +83,17 @@ export default class Balance extends Component {
           <Button raised ripple>Get Balance</Button>
         </form>
         {haveBalance &&
-          <div>
-            <div>NEO: {NEO}</div>
-            <div>GAS: {GAS}</div>
-            <div>Address: {address}</div>
-          </div>
+        <div>
+          <div>NEO: {NEO}</div>
+          <div>GAS: {GAS}</div>
+          <div>Address: {address}</div>
+        </div>
         }
         {loading === true &&
-          <div>loading...</div>
+        <div>loading...</div>
         }
         {errorMsg !== '' &&
-          <div>ERROR: {errorMsg}</div>
+        <div>ERROR: {errorMsg}</div>
         }
       </div>
     )

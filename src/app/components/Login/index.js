@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import Neon, { wallet } from '@cityofzion/neon-js'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import Neon, {wallet} from '@cityofzion/neon-js'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
 import 'preact-material-components/Theme/style.css'
@@ -61,25 +61,25 @@ export default class Login extends Component {
 
     this.decryptWallet(this.state.encryptedWif, this.state.passPhrase)
       .then((wif) => {
-        const { actions } = this.props
-        this.setState({ loading: false })
+        const {actions} = this.props
+        this.setState({loading: false})
         actions.setAccount(wif)
       })
       .catch((e) => {
         console.log('Incorrect credentials.')
-        this.setState({ loading: false, errorMessage: 'Incorrect credentials.' })
+        this.setState({loading: false, errorMessage: 'Incorrect credentials.'})
       })
   }
 
   handleClick = (e) => {
-    const { actions } = this.props
+    const {actions} = this.props
     e.preventDefault()
     actions.setAccount('')
   }
 
   render() {
-    const { loading, errorMsg } = this.state
-    const { account } = this.props
+    const {loading, errorMsg} = this.state
+    const {account} = this.props
 
     if (account.wif !== '') {
       const myAccount = Neon.create.account(account.wif)
@@ -119,10 +119,10 @@ export default class Login extends Component {
           </div>
         </form>
         {loading &&
-          <div>Loading...</div>
+        <div>Loading...</div>
         }
         {errorMsg !== '' &&
-          <div>ERROR: {errorMsg}</div>
+        <div>ERROR: {errorMsg}</div>
         }
       </div>
     )
