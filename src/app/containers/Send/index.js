@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import {api} from '@cityofzion/neon-js'
+import { api } from '@cityofzion/neon-js'
 import Select from 'preact-material-components/Select'
 import 'preact-material-components/List/style.css'
 import 'preact-material-components/Menu/style.css'
@@ -51,7 +51,7 @@ export default class Send extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const {network, account} = this.props
+    const { network, account } = this.props
     this.setState({
       loading: true,
       errorMsg: ''
@@ -96,7 +96,7 @@ export default class Send extends Component {
   }
 
   render() {
-    const {txid, loading, errorMsg} = this.state
+    const { txid, loading, errorMsg } = this.state
 
     return (
       <div>
@@ -118,15 +118,15 @@ export default class Send extends Component {
 
 
           <Select hintText="Asset"
-                  ref={(input) => {
-                    this.type = input
-                  }}
-                  selectedIndex={this.state.assetType}
-                  onChange={(e) => {
-                    this.setState({
-                      assetType: [e.selectedIndex]
-                    })
-                  }}
+            ref={(input) => {
+              this.type = input
+            }}
+            selectedIndex={this.state.assetType}
+            onChange={(e) => {
+              this.setState({
+                assetType: [e.selectedIndex]
+              })
+            }}
           >
             <Select.Item>NEO</Select.Item>
             <Select.Item>GAS</Select.Item>
@@ -137,16 +137,16 @@ export default class Send extends Component {
         </form>
 
         {txid &&
-        <div>
-          <div>Success!</div>
-          <div>txid: {txid}</div>
-        </div>
+          <div>
+            <div>Success!</div>
+            <div>txid: {txid}</div>
+          </div>
         }
         {loading &&
-        <div>Loading...</div>
+          <div>Loading...</div>
         }
         {errorMsg !== '' &&
-        <div>ERROR: {errorMsg}</div>
+          <div>ERROR: {errorMsg}</div>
         }
       </div>
     )

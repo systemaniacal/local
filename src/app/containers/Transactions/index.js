@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {api} from '@cityofzion/neon-js'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { api } from '@cityofzion/neon-js'
 import style from './Transactions.css'
 import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
@@ -32,7 +32,7 @@ export default class Transactions extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const {network} = this.props
+    const { network } = this.props
     this.setState({
       loading: true,
       transactions: [],
@@ -48,7 +48,7 @@ export default class Transactions extends Component {
         })
       })
       .catch((e) => {
-        this.setState({loading: false, errorMessage: 'Could not retrieve the transactions for this address.'})
+        this.setState({ loading: false, errorMessage: 'Could not retrieve the transactions for this address.' })
       })
   }
 
@@ -66,7 +66,7 @@ export default class Transactions extends Component {
   }
 
   render() {
-    const {transactions, address, errorMsg, loading} = this.state
+    const { transactions, address, errorMsg, loading } = this.state
 
     return (
       <div className='content'>
@@ -82,26 +82,26 @@ export default class Transactions extends Component {
           <Button raised ripple>List</Button>
         </form>
         {address && transactions.length > 0 &&
-        (
-          <div>
-            <div>Results for: {address}</div>
-            {this.renderTransactions(transactions)}
-          </div>
-        )
+          (
+            <div>
+              <div>Results for: {address}</div>
+              {this.renderTransactions(transactions)}
+            </div>
+          )
         }
         {address && !transactions.length &&
-        (
-          <div>
-            <div>Results for: {address}</div>
-            None
+          (
+            <div>
+              <div>Results for: {address}</div>
+              None
           </div>
-        )
+          )
         }
         {loading === true &&
-        <div>loading...</div>
+          <div>loading...</div>
         }
         {errorMsg !== '' &&
-        <div>ERROR: {errorMsg}</div>
+          <div>ERROR: {errorMsg}</div>
         }
       </div>
     )
