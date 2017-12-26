@@ -8,8 +8,7 @@ import style from './SendInvoke.css'
 @connect(
   state => ({
     network: state.network,
-    account: state.account,
-    transactions: state.transactions
+    account: state.account
   })
 )
 
