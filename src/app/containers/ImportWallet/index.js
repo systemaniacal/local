@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 export default class ImportWallet extends Component {
-  render () {
+  render() {
     return (
       <div className='content'>
         <p className='card-title'>Import Wallet</p>

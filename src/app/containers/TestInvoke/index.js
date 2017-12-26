@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import Neon, {api} from '@cityofzion/neon-js'
+import Neon, { api } from '@cityofzion/neon-js'
 import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
 import 'preact-material-components/Theme/style.css'
@@ -44,7 +44,7 @@ export default class TestInvoke extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const {network} = this.props
+    const { network } = this.props
     this.setState({
       loading: true,
       errorMsg: '',
@@ -71,7 +71,7 @@ export default class TestInvoke extends Component {
 
     const args = []
     txArgs.forEach((arg) => {
-      if (arg !== '') args.push({'type': 7, 'value': arg})
+      if (arg !== '') args.push({ 'type': 7, 'value': arg })
     })
 
     const query = Neon.create.query({
@@ -98,7 +98,7 @@ export default class TestInvoke extends Component {
   }
 
   render() {
-    const {result, loading, errorMsg} = this.state
+    const { result, loading, errorMsg } = this.state
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -133,15 +133,15 @@ export default class TestInvoke extends Component {
           <Button raised ripple>Invoke</Button>
         </form>
         {result &&
-        <div>
-          result: {JSON.stringify(result)}
-        </div>
+          <div>
+            result: {JSON.stringify(result)}
+          </div>
         }
         {loading &&
-        <div>Loading...</div>
+          <div>Loading...</div>
         }
         {errorMsg !== '' &&
-        <div>ERROR: {errorMsg}</div>
+          <div>ERROR: {errorMsg}</div>
         }
       </div>
     )

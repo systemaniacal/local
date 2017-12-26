@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 export default class ExportWallet extends Component {
-  render () {
+  render() {
     return (
       <div className='content'>
         <p className='card-title'>Export Wallet</p>
