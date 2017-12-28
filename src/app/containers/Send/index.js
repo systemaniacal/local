@@ -76,8 +76,6 @@ export default class Send extends Component {
 
     let amounts = {}
     amounts[assetType] = parseFloat(this.state.amount)
-    console.log('submit')
-    console.log(network.name, this.state.address, account.wif, amounts)
     api.neonDB.doSendAsset(network.name, this.state.address, account.wif, amounts)
       .then((result) => {
         console.log(result)
