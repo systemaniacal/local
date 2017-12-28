@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import { api } from '@cityofzion/neon-js'
-
 import style from './Transactions.css'
+import Button from 'preact-material-components/Button'
+import 'preact-material-components/Button/style.css'
+import 'preact-material-components/Theme/style.css'
+import TextField from 'preact-material-components/TextField'
+import 'preact-material-components/TextField/style.css'
 
 @connect(
   state => ({
@@ -16,7 +19,15 @@ export default class Transactions extends Component {
     errorMsg: '',
     loading: false,
     transactions: [],
-    address: ''
+    address: '',
+    enteredAddress: ''
+  }
+
+  _handleTextFieldChange = (e) => {
+    const key = e.target.id
+    this.setState({
+      [key]: e.target.value
+    })
   }
 
   handleSubmit = (event) => {
@@ -28,12 +39,12 @@ export default class Transactions extends Component {
       errorMsg: '',
       address: ''
     })
-    api.neonDB.getTransactionHistory(network.name, this.enteredAddress.value)
+    api.neonDB.getTransactionHistory(network.name, this.state.enteredAddress)
       .then((result) => {
         this.setState({
           loading: false,
           transactions: result,
-          address: this.enteredAddress.value
+          address: this.state.enteredAddress
         })
       })
       .catch((e) => {
@@ -41,7 +52,7 @@ export default class Transactions extends Component {
       })
   }
 
-  renderTransactions (transactions) {
+  renderTransactions(transactions) {
     const listItems = transactions.map((transaction) =>
       <li>
         <div className={style.transactionId}>{transaction.txid}</div>
@@ -54,21 +65,23 @@ export default class Transactions extends Component {
     )
   }
 
-  render () {
+  render() {
     const { transactions, address, errorMsg, loading } = this.state
 
     return (
       <div className='content'>
-        <p>Transactions</p>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <TextField
             autoFocus
             type='text'
             placeholder='Address'
-            ref={(input) => { this.enteredAddress = input }} />
-          <button>List</button>
+            value={this.state.enteredAddress}
+            id="enteredAddress"
+            onChange={this._handleTextFieldChange}
+          />
+          <Button raised ripple>List</Button>
         </form>
-        { address && transactions.length > 0 &&
+        {address && transactions.length > 0 &&
           (
             <div>
               <div>Results for: {address}</div>
@@ -76,18 +89,18 @@ export default class Transactions extends Component {
             </div>
           )
         }
-        { address && !transactions.length &&
+        {address && !transactions.length &&
           (
             <div>
               <div>Results for: {address}</div>
               None
-            </div>
+          </div>
           )
         }
-        { loading === true &&
+        {loading === true &&
           <div>loading...</div>
         }
-        { errorMsg !== '' &&
+        {errorMsg !== '' &&
           <div>ERROR: {errorMsg}</div>
         }
       </div>

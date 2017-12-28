@@ -2,6 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { api } from '@cityofzion/neon-js'
+import Select from 'preact-material-components/Select'
+import 'preact-material-components/List/style.css'
+import 'preact-material-components/Menu/style.css'
+import 'preact-material-components/Select/style.css'
+
+import TextField from 'preact-material-components/TextField'
+import 'preact-material-components/TextField/style.css'
+
+import Button from 'preact-material-components/Button'
+import 'preact-material-components/Button/style.css'
+import 'preact-material-components/Theme/style.css'
 
 @connect(
   state => ({
@@ -14,14 +25,27 @@ export default class Send extends Component {
   state = {
     errorMsg: '',
     loading: false,
-    txid: ''
+    txid: '',
+    assetType: 1,
+    address: '',
+    amount: ''
+  }
+
+  _handleTextFieldChange = (e) => {
+    const key = e.target.id
+    this.setState({
+      [key]: e.target.value
+    })
   }
 
   resetState = () => {
     this.setState({
       errorMsg: '',
       loading: false,
-      txid: ''
+      txid: '',
+      assetType: 1,
+      address: '',
+      amount: ''
     })
   }
 
@@ -33,7 +57,7 @@ export default class Send extends Component {
       errorMsg: ''
     })
 
-    if (!this.address || !this.address.value || !this.amount || !this.amount.value) {
+    if (!this.state.address || !this.state.amount) {
       this.setState({
         loading: false,
         errorMsg: 'All fields are required'
@@ -42,9 +66,17 @@ export default class Send extends Component {
       return
     }
 
-    var amounts = {}
-    amounts[this.type.value] = parseFloat(this.amount.value)
-    api.neonDB.doSendAsset(network.name, this.address.value, account.wif, amounts)
+    //Set Asset Type
+    let assetType
+    if (this.state.assetType === 0) {
+      assetType = 'NEO'
+    } else {
+      assetType = 'GAS'
+    }
+
+    let amounts = {}
+    amounts[assetType] = parseFloat(this.state.amount)
+    api.neonDB.doSendAsset(network.name, this.state.address, account.wif, amounts)
       .then((result) => {
         console.log(result)
         this.setState({
@@ -56,50 +88,62 @@ export default class Send extends Component {
         console.log(e)
         this.setState({
           loading: false,
-          errorMsg: 'Error sending'
+          errorMsg: e
         })
       })
   }
 
-  render () {
+  render() {
     const { txid, loading, errorMsg } = this.state
 
     return (
       <div>
-        <p>Invoke Contract</p>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <TextField
             type='text'
             placeholder='Address'
-            ref={(input) => { this.address = input }}
+            value={this.state.address}
+            id="address"
+            onChange={this._handleTextFieldChange}
           />
-          <input
+          <TextField
             type='text'
             placeholder='Amount'
-            ref={(input) => { this.amount = input }}
+            value={this.state.amount}
+            id="amount"
+            onChange={this._handleTextFieldChange}
           />
 
-          <label htmlFor='assetType'>Type:</label>
-          <select
-            id='assetType'
-            ref={(input) => { this.type = input }}
+
+          <Select hintText="Asset"
+            ref={(input) => {
+              this.type = input
+            }}
+            selectedIndex={this.state.assetType}
+            onChange={(e) => {
+              this.setState({
+                assetType: [e.selectedIndex]
+              })
+            }}
           >
-            <option value='NEO'>Neo</option>
-            <option value='GAS' selected>Gas</option>
-          </select>
-          <button>Send</button>
+            <Select.Item>NEO</Select.Item>
+            <Select.Item>GAS</Select.Item>
+          </Select>
+
+
+          <Button raised ripple>Send</Button>
         </form>
 
-        { txid &&
+        {txid &&
           <div>
             <div>Success!</div>
             <div>txid: {txid}</div>
           </div>
         }
-        { loading &&
+        {loading &&
           <div>Loading...</div>
         }
-        { errorMsg !== '' &&
+        {errorMsg !== '' &&
           <div>ERROR: {errorMsg}</div>
         }
       </div>

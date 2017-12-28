@@ -5,13 +5,14 @@ import MainNav from '../MainNav'
 import style from './Header.css'
 
 export default class Header extends Component {
-  render () {
+  render() {
     const { noMenu } = this.props
+
     return (
       <div className={style.header}>
         <NetworkSwitcher />
         <div className={style.titleBar}>
-          { !noMenu &&
+          { noMenu ||
             <div className={style.menuNavWrapper}>
               <MainNav />
             </div>

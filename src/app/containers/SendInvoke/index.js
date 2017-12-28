@@ -1,7 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Neon, { api } from '@cityofzion/neon-js'
+import Button from 'preact-material-components/Button'
+import 'preact-material-components/Button/style.css'
+import 'preact-material-components/Theme/style.css'
+import TextField from 'preact-material-components/TextField'
+import 'preact-material-components/TextField/style.css'
+import Select from 'preact-material-components/Select'
+import 'preact-material-components/List/style.css'
+import 'preact-material-components/Menu/style.css'
+import 'preact-material-components/Select/style.css'
+
+import { callInvoke } from '../../utils/neonWrappers';
 
 import style from './SendInvoke.css'
 
@@ -26,35 +36,28 @@ import style from './SendInvoke.css'
 
 export default class SendInvoke extends Component {
   state = {
+    loading: false,
     errorMsg: '',
-    loading: false
+    txid: ''
   }
 
-  resetState = () => {
+  _handleTextFieldChange = (e) => {
+    const key = e.target.id
     this.setState({
-      errorMsg: '',
-      loading: false,
-      txid: ''
+      [key]: e.target.value
     })
-  }
-
-  String2Hex (tmp) {
-    var str = ''
-    for (var i = 0; i < tmp.length; i++) {
-      str += tmp[i].charCodeAt(0).toString(16)
-    }
-    return str
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network, account, onSuccess } = this.props
+    const {network, account} = this.props
 
     this.setState({
       loading: true,
       errorMsg: '',
       txid: ''
     })
+
 
     if (!this.scriptHash || !this.scriptHash.value || !this.operation || !this.operation.value || !this.amount || !this.amount.value) {
       this.setState({
@@ -65,34 +68,13 @@ export default class SendInvoke extends Component {
       return
     }
 
-    const txArgs = [this.arg1.value, this.arg2.value]
-    const args = []
-    txArgs.forEach((arg) => {
-      if (arg !== '') args.push(this.String2Hex(arg))
-    })
-
-    const myAccount = Neon.create.account(account.wif)
-
-    const config = {
-      net: network.name,
-      privateKey: myAccount.privateKey,
-      address: myAccount.address,
-      intents: [{ assetId: Neon.CONST.ASSET_ID[this.type.value], value: parseFloat(this.amount.value), scriptHash: this.scriptHash.value }],
-      script: { scriptHash: this.scriptHash.value, operation: this.operation.value, args: args },
-      gas: 0
-    }
-
-    return api.doInvoke(config)
+    callInvoke(network, account, this.state)
       .then((c) => {
         if (c.response.result === true) {
           this.setState({
             loading: false,
             txid: c.response.txid
           })
-
-          if (onSuccess) {
-            onSuccess(c.response)
-          }
         } else {
           this.setState({
             loading: false,
@@ -109,62 +91,62 @@ export default class SendInvoke extends Component {
       })
   }
 
-  render () {
-    const { txid, loading, errorMsg } = this.state
-    const { transaction } = this.props
+  render() {
+    const { loading, txid, errorMsg } = this.state
 
     return (
       <div>
-        <p>Invoke Contract</p>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            autoFocus
-            type='text'
-            placeholder='Operation'
-            readOnly={transaction !== null}
-            defaultValue={transaction !== null && transaction.operation}
-            ref={(input) => { this.operation = input }}
-          />
-          <input
-            type='text'
-            placeholder='Argument 1'
-            readOnly={transaction !== null}
-            defaultValue={transaction !== null && transaction.args[0]}
-            ref={(input) => { this.arg1 = input }}
-          />
-          <input
-            type='text'
-            placeholder='Argument 2'
-            readOnly={transaction !== null}
-            defaultValue={transaction !== null && transaction.args[1]}
-            ref={(input) => { this.arg2 = input }}
-          />
-          <input
+        <form onSubmit={this.handleSubmit} style="padding-top:35px;">
+          <TextField
             type='text'
             placeholder='Script Hash'
-            readOnly={transaction !== null}
-            defaultValue={transaction !== null && transaction.scriptHash}
-            ref={(input) => { this.scriptHash = input }}
+            value={this.state.scriptHash}
+            id="scriptHash"
+            onChange={this._handleTextFieldChange}
           />
-          <input
+          <TextField
+            type='text'
+            placeholder='Operation'
+            value={this.state.operation}
+            id="operation"
+            onChange={this._handleTextFieldChange}
+          />
+          <TextField
+            type='text'
+            placeholder='Argument 1'
+            value={this.state.arg1}
+            id="arg1"
+            onChange={this._handleTextFieldChange}
+          />
+          <TextField
+            type='text'
+            placeholder='Argument 2'
+            value={this.state.arg2}
+            id="arg2"
+            onChange={this._handleTextFieldChange}
+          />
+          <TextField
             type='text'
             placeholder='Amount'
-            readOnly={transaction !== null}
-            defaultValue={transaction !== null && transaction.amount}
-            ref={(input) => { this.amount = input }}
+            value={this.state.amount}
+            id="amount"
+            onChange={this._handleTextFieldChange}
           />
-
-          <label htmlFor='assetType'>Type:</label>
-          <select
-            id='assetType'
-            readOnly={transaction !== null}
-            defaultValue={transaction !== null && transaction.type}
-            ref={(input) => { this.type = input }}
+          <Select hintText="Asset"
+            ref={(input) => {
+              this.type = input
+            }}
+            selectedIndex={this.state.assetType}
+            onChange={(e) => {
+              this.setState({
+                assetType: [e.selectedIndex]
+              })
+            }}
           >
-            <option value='NEO'>Neo</option>
-            <option value='GAS' selected>Gas</option>
-          </select>
-          <button disabled={loading}>Invoke</button>
+            <Select.Item>NEO</Select.Item>
+            <Select.Item>GAS</Select.Item>
+          </Select>
+          <Button raised ripple disabled={this.state.loading}>Invoke</Button>
         </form>
 
         { txid &&

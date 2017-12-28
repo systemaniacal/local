@@ -1,11 +1,10 @@
-
 # NeoLink
 
 This is a Chrome extension wallet for the Neo Smart Economy.
 
 Currently the project is undergoing heavy development and is hardcoded to only operate on TestNet.
 
-![alt](https://github.com/phetter/NeoLink/blob/master/neolink_alpha_ss.png)
+![alt](https://i.gyazo.com/816b21e8fcbb35073919603c9d6030c1.gif)
 
 
 ## Current Features
@@ -14,42 +13,55 @@ Currently the project is undergoing heavy development and is hardcoded to only o
 * Get a list of transactions for any known address - does not require login
 * Get the balance of any known address - does not require login
 * Send Neo or Gas to an address
-* Easily switch between TestNet and MainNet
+* Easily switch between Public & Private Net
 * Test invoke smart contracts, with parameters, to determine gas cost and test
 * Send invoke smart contracts with parameters and arguments
 * Authorize both types of smart contract invocations as requested by third-party dApp
 * SemVer 2.0 compliant http://semver.org/
 
 
-## Future Features and TODO
+## Future Features
 
-* Add progress indicator for all actions to show user something is happening
-* Add global status bar or modal system
-* Add custom network configuration
-* Add persistent storage of user configuration
-* Re-skin UI and layout
-* Refactor: lint, modularity, and clarity
-* Easy selection of MainNet, TestNet, or custom private net
-* Contact book that remembers addresses used
-* Configurable watch wallet for any saved addresses to display balances all in one view
-* Claim Gas
-* Create wallet
-* Import Wallet
-* Export Wallet
-* Add arbitrary number of arguments for smart contract invocation
-* Ledger hardware support
-* Any ideas from the community!
+*    Add progress indicator for all actions to show user something is happening
+*    Add global status bar or modal system
+*    Add custom network configuration
+*    Add persistent storage of user configuration
+*    Re-skin UI and layout
+*    Refactor: lint, modularity, and clarity
+*    Easy selection of MainNet, TestNet, or custom private net
+*    Contact book that remembers addresses used
+*    Configurable watch wallet for any saved addresses to display balances all in one view
+*    Claim Gas
+*    Create wallet
+*    Import Wallet
+*    Export Wallet
+*    Add arbitrary number of arguments for smart contract invocation
+*    Ledger hardware support
+*    Any ideas from the community!
+
+## Roadmap for Q1 2018
+
+* Finalize Preact version + Material Design
+* Product Landing Page
+* Firefox plug-in
+* Version 1.0 Release (Release packed plug-in on Google and Firefox)
+* neon-api integration (NEO's web3 equivalent)
 
 
 ## Setup
 
-yarn install
+`yarn install`
 
-cd node_modules/neon-js; npm run-script build; cd ../../
+```
+cd node_modules/neon-js
+npm install
+npm run-script build
+cd ../../
+```
 
-yarn run start &#35; (for development with live reload)
+`yarn run start` (for development with live reload)
 
-yarn run build &#35; (production)
+`yarn run build` (production)
 
 
 Your unpacked extension will be in the ./build/ folder.
@@ -93,9 +105,7 @@ document.getElementById("runInvokeButton).addEventListener("click",
 </script>
 ```
 
-
 Please note that currently the code is limited to a maximum of three arguments to the smart contract.
-
 
 
 ## Triggering an IoT Smart Contract Payment

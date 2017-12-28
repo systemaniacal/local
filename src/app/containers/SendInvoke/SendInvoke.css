@@ -1,3 +1,13 @@
-.transactionId {
-  word-wrap: break-word;
+.label {
+  width:100%;
+  font-weight: bold;
+}
+
+.successBox {
+  width: 200px;
+}
+
+.entryItem {
+  width: 80%;
+  padding-bottom: 10px;
 }

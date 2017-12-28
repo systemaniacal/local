@@ -15,7 +15,7 @@ function popWindow(type) {
     left: 100,
     top: 100,
     width: 310,
-    height: 550
+    height: 570
   }
 
   if (type === 'open') {
