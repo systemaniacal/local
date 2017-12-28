@@ -6,7 +6,15 @@ import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
 import 'preact-material-components/Theme/style.css'
 
+import TextField from 'preact-material-components/TextField';
+import 'preact-material-components/TextField/style.css';
+
 import * as AccountActions from '../../actions/account'
+
+
+import style from './Login.css'
+
+
 
 @connect(
   state => ({
@@ -20,8 +28,19 @@ import * as AccountActions from '../../actions/account'
 export default class Login extends Component {
   state = {
     errorMsg: '',
-    loading: false
+    loading: false,
+    encryptedWif: '',
+    passPhrase: ''
   }
+
+
+  _handleTextFieldChange = (e) => {
+    const key = e.target.id
+    this.setState({
+      [key]: e.target.value
+    })
+  }
+
 
   decryptWallet = (encryptedWif, passphrase) => {
     return new Promise((resolve, reject) => {
@@ -36,6 +55,7 @@ export default class Login extends Component {
   }
 
   handleSubmit = (event) => {
+    console.log('Submit');
     event.preventDefault()
 
     this.setState({
@@ -43,13 +63,14 @@ export default class Login extends Component {
       errorMsg: ''
     })
 
-    this.decryptWallet(this.encryptedWif.value, this.passphrase.value)
+    this.decryptWallet(this.state.encryptedWif, this.state.passPhrase)
       .then((wif) => {
         const { actions } = this.props
         this.setState({ loading: false })
         actions.setAccount(wif)
       })
       .catch((e) => {
+        console.log('Incorrect credentials.')
         this.setState({ loading: false, errorMessage: 'Incorrect credentials.' })
       })
   }
@@ -60,7 +81,7 @@ export default class Login extends Component {
     actions.setAccount('')
   }
 
-  render () {
+  render() {
     const { loading, errorMsg } = this.state
     const { account } = this.props
 
@@ -68,35 +89,41 @@ export default class Login extends Component {
       const myAccount = Neon.create.account(account.wif)
       return (
         <div>
-          <p>Logged In</p>
           <Button ripple raised onClick={this.handleClick}>
             Logout
           </Button>
-          <div>Address: {myAccount.address}</div>
-          <div>Public key encoded: {myAccount.getPublicKey(true)}</div>
+          <div className={style.accountInfoContainer}>
+            <div className={style.accountInfo}><span className={style.breakWord}>Address: {myAccount.address}</span></div>
+            <div className={style.accountInfo} style="margin-top:10px;"><span className={style.breakWord}>Public key encoded: {myAccount.getPublicKey(true)}</span></div>
+          </div>
         </div>
       )
     }
     return (
       <div>
-        <p>Login</p>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <TextField
             type='text'
             placeholder='Encrypted WIF'
-            ref={(input) => { this.encryptedWif = input }}
+            value={this.state.encryptedWif}
+            id="encryptedWif"
+            onChange={this._handleTextFieldChange}
           />
-          <input
+          <TextField
             type='password'
             placeholder='Passphrase'
-            ref={(input) => { this.passphrase = input }}
+            value={this.state.passPhrase}
+            id="passPhrase"
+            onChange={this._handleTextFieldChange}
           />
-          <button>Login</button>
+          <div>
+            <Button raised ripple>Login</Button>
+          </div>
         </form>
-        { loading &&
+        {loading &&
           <div>Loading...</div>
         }
-        { errorMsg !== '' &&
+        {errorMsg !== '' &&
           <div>ERROR: {errorMsg}</div>
         }
       </div>

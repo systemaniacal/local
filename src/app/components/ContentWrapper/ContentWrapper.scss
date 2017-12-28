@@ -3,7 +3,8 @@
   position: relative;
   display: inline-block;
   width: 100%;
-  height: calc(100% - 65px); }
+  height: calc(100% - 65px);
+}
 
 .innerWrapper {
   position: absolute;
@@ -13,7 +14,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 .fancyBox {
   width: 83%;
@@ -26,22 +28,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column; }
-  .fancyBox div {
+  flex-direction: column;
+  div {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column; }
-  .fancyBox form {
+    flex-direction: column;
+  }
+
+  form {
     margin-top: -50px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 100%; }
-  .fancyBox select {
-    width: 100px; }
-  .fancyBox button {
-    margin-top: 20px; }
+    width: 100%;
+  }
 
-/*# sourceMappingURL=ContentWrapper.css.map */
+  select {
+    width: 100px;
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}

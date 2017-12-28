@@ -5,7 +5,7 @@ import MainNav from '../MainNav'
 import style from './Header.css'
 
 export default class Header extends Component {
-  render () {
+  render() {
     return (
       <div className={style.header}>
         <NetworkSwitcher />
