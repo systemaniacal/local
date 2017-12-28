@@ -12,6 +12,10 @@ import 'preact-material-components/TextField/style.css';
 import * as AccountActions from '../../actions/account'
 
 
+import style from './Login.css'
+
+
+
 @connect(
   state => ({
     account: state.account
@@ -88,11 +92,9 @@ export default class Login extends Component {
           <Button ripple raised onClick={this.handleClick}>
             Logout
           </Button>
-          <div style="margin-top:20px;">
-            <div style="width:200px; display:block; word-wrap: break-word;"><span
-              style="word-wrap: break-word;">Address: {myAccount.address}</span></div>
-            <div style="margin-top:10px; width:200px; display:block; word-wrap: break-word;"><span
-              style="word-wrap: break-word;">Public key encoded: {myAccount.getPublicKey(true)}</span></div>
+          <div className={style.accountInfoContainer}>
+            <div className={style.accountInfo}><span className={style.breakWord}>Address: {myAccount.address}</span></div>
+            <div className={style.accountInfo} style="margin-top:10px;"><span className={style.breakWord}>Public key encoded: {myAccount.getPublicKey(true)}</span></div>
           </div>
         </div>
       )
