@@ -59,7 +59,7 @@ export default class SendInvoke extends Component {
     })
 
 
-    if (!this.scriptHash || !this.scriptHash.value || !this.operation || !this.operation.value || !this.amount || !this.amount.value) {
+    if (!this.state.scriptHash || !this.state.operation || !this.state.amount) {
       this.setState({
         loading: false,
         errorMsg: 'Error! Script hash, operation and amount are all required!'
