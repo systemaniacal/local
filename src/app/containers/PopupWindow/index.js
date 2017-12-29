@@ -32,7 +32,7 @@ export default class PopupWindow extends Component {
 
     return (
       <div className={style.popup}>
-        <Header noMenu />
+        <Header showMenu={false} />
         <ContentWrapper>
           { !transaction
             ? <div>Loading</div>
