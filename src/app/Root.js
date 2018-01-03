@@ -3,14 +3,18 @@ import PropTypes from 'prop-types'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import App from './containers/App'
+import PopupWindow from './containers/PopupWindow'
 
 export default class Root extends Component {
   render () {
-    const { store } = this.props
+    const { store, isPopupWindow } = this.props
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          { isPopupWindow
+            ? <PopupWindow />
+            : <App />
+          }
         </BrowserRouter>
       </Provider>
     )
@@ -18,5 +22,6 @@ export default class Root extends Component {
 }
 
 Root.propTypes = {
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired,
+  isPopupWindow: PropTypes.bool.isRequired
 }

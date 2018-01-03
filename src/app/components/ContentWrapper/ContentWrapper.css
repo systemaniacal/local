@@ -15,6 +15,10 @@
   align-items: center;
   flex-direction: column; }
 
+.infoText {
+  word-wrap: break-word;
+  width: 100%; }
+
 .fancyBox {
   width: 83%;
   height: 90%;

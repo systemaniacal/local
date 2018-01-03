@@ -1,35 +1,6 @@
 // content.js - currently this gets injected into all web pages when extension
 // is running]
 
-import util from 'util'
-
-var loggedIn = false
-var extensionInstalled = false
-
-// Listen for messages that are the results of invocations sent from the dapp through the content script.
-// These come from the background script in the extension.
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  var result = ''
-  if (request.error) {
-    result = request.error
-  } else {
-    result = request.msg
-  }
-  if (request.loggedIn) {
-    loggedIn = request.loggedIn
-  }
-  if (request.extensionInstalled) {
-    extensionInstalled = request.extensionInstalled
-  }
-  var extState = {
-    loggedIn: loggedIn,
-    extensionInstalled: extensionInstalled,
-    result: result
-  }
-  // send message back to api page
-  window.postMessage(extState, '*')
-})
-
 // Listen for messages from the page to do smart contract invocations.
 // TODO: this should first do a test to determine gas cost and THEN do send
 window.addEventListener('message', (event) => {
@@ -56,7 +27,6 @@ function sendInvoke (scriptHash, operation, arg1, arg2, assetType, assetAmount) 
   console.log('invoking contract from content script')
   var args = [arg1, arg2]
 
-  //  var tx = {'operation': 'putvalue', 'args': args, 'scriptHash': 'b3a14d99a3fb6646c78bf2f4e2f25a7964d2956a', 'amount': price, 'type': 'GAS' }
   var tx = {
     'operation': operation,
     'args': args,

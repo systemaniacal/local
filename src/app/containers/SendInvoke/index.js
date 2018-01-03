@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Neon, { api } from '@cityofzion/neon-js'
-
-import style from './SendInvoke.css'
-
 import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
 import 'preact-material-components/Theme/style.css'
@@ -14,6 +10,10 @@ import Select from 'preact-material-components/Select'
 import 'preact-material-components/List/style.css'
 import 'preact-material-components/Menu/style.css'
 import 'preact-material-components/Select/style.css'
+
+import { callInvoke } from '../../utils/neonWrappers';
+
+import style from './SendInvoke.css'
 
 @connect(
   state => ({
@@ -36,16 +36,9 @@ import 'preact-material-components/Select/style.css'
 
 export default class SendInvoke extends Component {
   state = {
+    loading: false,
     errorMsg: '',
-    loading: false
-  }
-
-  resetState = () => {
-    this.setState({
-      errorMsg: '',
-      loading: false,
-      txid: ''
-    })
+    txid: ''
   }
 
   _handleTextFieldChange = (e) => {
@@ -55,30 +48,16 @@ export default class SendInvoke extends Component {
     })
   }
 
-  String2Hex(tmp) {
-    var str = ''
-    for (var i = 0; i < tmp.length; i++) {
-      str += tmp[i].charCodeAt(0).toString(16)
-    }
-    return str
-  }
-
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network, account } = this.props
+    const {network, account} = this.props
+
     this.setState({
       loading: true,
       errorMsg: '',
       txid: ''
     })
 
-    //Set Asset Type
-    let assetType
-    if (this.state.assetType === 0) {
-      assetType = 'NEO'
-    } else {
-      assetType = 'GAS'
-    }
 
     if (!this.state.scriptHash || !this.state.operation || !this.state.amount) {
       this.setState({
@@ -89,28 +68,7 @@ export default class SendInvoke extends Component {
       return
     }
 
-    const txArgs = [this.state.arg1, this.state.arg2]
-    const args = []
-    txArgs.forEach((arg) => {
-      if (arg !== '') args.push(this.String2Hex(arg))
-    })
-
-    const myAccount = Neon.create.account(account.wif)
-
-    const config = {
-      net: network.name,
-      privateKey: myAccount.privateKey,
-      address: myAccount.address,
-      intents: [{
-        assetId: Neon.CONST.ASSET_ID[assetType],
-        value: parseFloat(this.state.amount),
-        scriptHash: this.state.scriptHash
-      }],
-      script: { scriptHash: this.state.scriptHash, operation: this.state.operation, args: args },
-      gas: 0
-    }
-
-    return api.doInvoke(config)
+    callInvoke(network, account, this.state)
       .then((c) => {
         if (c.response.result === true) {
           this.setState({
@@ -134,7 +92,7 @@ export default class SendInvoke extends Component {
   }
 
   render() {
-    const { txid, loading, errorMsg } = this.state
+    const { loading, txid, errorMsg } = this.state
 
     return (
       <div>
@@ -174,7 +132,6 @@ export default class SendInvoke extends Component {
             id="amount"
             onChange={this._handleTextFieldChange}
           />
-
           <Select hintText="Asset"
             ref={(input) => {
               this.type = input
@@ -189,18 +146,18 @@ export default class SendInvoke extends Component {
             <Select.Item>NEO</Select.Item>
             <Select.Item>GAS</Select.Item>
           </Select>
-          <Button raised ripple disabled={loading}>Invoke</Button>
+          <Button raised ripple disabled={this.state.loading}>Invoke</Button>
         </form>
 
-        {txid &&
+        { txid &&
           <div>
-            Success! txid: <span className={style.transactionId}>{txid}</span>
+            Success! txid: <span className={style.transactionId}>{ txid }</span>
           </div>
         }
-        {loading &&
+        { loading &&
           <div>Loading...</div>
         }
-        {errorMsg !== '' &&
+        { errorMsg !== '' &&
           <div>ERROR: {errorMsg}</div>
         }
       </div>

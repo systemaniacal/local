@@ -8,8 +8,11 @@ chrome.storage.local.get('state', (obj) => {
 
   const createStore = require('../app/store/configureStore')
 
+  const container = document.querySelector('#container')
+  const isPopupWindow = container.classList.contains('popup')
+
   ReactDOM.render(
-    <Root store={createStore(initialState)} />,
-    document.querySelector('#container')
+    <Root store={createStore(initialState)} isPopupWindow={isPopupWindow} />,
+    container
   )
 })

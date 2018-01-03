@@ -14,20 +14,34 @@ function popWindow(type) {
     type: 'popup',
     left: 100,
     top: 100,
-    width: 350,
-    height: 500
+    width: 310,
+    height: 570
   }
 
   if (type === 'open') {
-    options.url = 'popup.html'
+    options.url = 'popupWindow.html'
+    var port = chrome.runtime.connect({name: 'popup'})
     chrome.windows.create(options, (win) => {
       windowId = win.id
     })
+
+    return port
   }
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendContentResponse) => {
   if (request.msg === 'sendInvoke') {
-    popWindow('open')
+    const port = popWindow('open')
+
+    chrome.runtime.onConnect.addListener((port) => {
+      port.postMessage({ operation: 'sendInvoke', txInfo: request.tx, senderId: sender.tab.id })
+
+      port.onMessage.addListener((message) => {
+        if (message.msg === 'sendInvokeResponse') {
+          sendContentResponse(message)
+        }
+      })
+    })
   }
+  return true
 })
