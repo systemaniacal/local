@@ -11,10 +11,7 @@ import 'preact-material-components/TextField/style.css';
 
 import * as AccountActions from '../../actions/account'
 
-
 import style from './Login.css'
-
-
 
 @connect(
   state => ({
@@ -55,7 +52,6 @@ export default class Login extends Component {
   }
 
   handleSubmit = (event) => {
-    console.log('Submit');
     event.preventDefault()
 
     this.setState({
@@ -70,7 +66,6 @@ export default class Login extends Component {
         actions.setAccount(wif)
       })
       .catch((e) => {
-        console.log('Incorrect credentials.')
         this.setState({ loading: false, errorMessage: 'Incorrect credentials.' })
       })
   }

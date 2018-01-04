@@ -14,6 +14,8 @@ import Button from 'preact-material-components/Button'
 import 'preact-material-components/Button/style.css'
 import 'preact-material-components/Theme/style.css'
 
+import withLoginCheck from '../../components/Login/withLoginCheck';
+
 @connect(
   state => ({
     network: state.network,
@@ -21,7 +23,7 @@ import 'preact-material-components/Theme/style.css'
   })
 )
 
-export default class Send extends Component {
+class Send extends Component {
   state = {
     errorMsg: '',
     loading: false,
@@ -150,3 +152,5 @@ export default class Send extends Component {
     )
   }
 }
+
+export default withLoginCheck(Send)

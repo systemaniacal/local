@@ -14,6 +14,7 @@ import 'preact-material-components/Select/style.css'
 import { callInvoke } from '../../utils/neonWrappers';
 
 import style from './SendInvoke.css'
+import withLoginCheck from '../../components/Login/withLoginCheck';
 
 @connect(
   state => ({
@@ -34,7 +35,7 @@ import style from './SendInvoke.css'
   }
 */
 
-export default class SendInvoke extends Component {
+class SendInvoke extends Component {
   state = {
     loading: false,
     errorMsg: '',
@@ -164,3 +165,5 @@ export default class SendInvoke extends Component {
     )
   }
 }
+
+export default withLoginCheck(SendInvoke)
