@@ -73,7 +73,15 @@ export default class SendInvokeReadonly extends Component {
 
   render() {
     const { loading, txid, errorMsg } = this.state
-    const { transaction } = this.props
+    const { transaction, account } = this.props
+
+    if (!account || !account.wif) {
+      return (
+        <div>
+          Please login through browser button and reinitiate this operation.
+        </div>
+      )
+    }
 
     return (
       <div>

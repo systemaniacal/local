@@ -9,12 +9,8 @@ import 'preact-material-components/Theme/style.css'
 import TextField from 'preact-material-components/TextField';
 import 'preact-material-components/TextField/style.css';
 
+import Loader from '../Loader'
 import * as AccountActions from '../../actions/account'
-
-
-import style from './Login.css'
-
-
 
 @connect(
   state => ({
@@ -44,60 +40,52 @@ export default class Login extends Component {
 
   decryptWallet = (encryptedWif, passphrase) => {
     return new Promise((resolve, reject) => {
-      const wif = wallet.decrypt(encryptedWif, passphrase)
+      setTimeout(() => {
+        const wif = wallet.decrypt(encryptedWif, passphrase)
 
-      if (!wif) {
-        reject(new Error("Couldn't load account"))
-      } else {
-        resolve(wif)
-      }
+        if (!wif) {
+          reject(new Error("Couldn't load account"))
+        } else {
+          resolve(wif)
+        }
+      }, 1)
     })
   }
 
   handleSubmit = (event) => {
-    console.log('Submit');
     event.preventDefault()
 
+    const { encryptedWif, passPhrase } = this.state
     this.setState({
       loading: true,
       errorMsg: ''
     })
 
-    this.decryptWallet(this.state.encryptedWif, this.state.passPhrase)
-      .then((wif) => {
+    // Make wallet.decrypt() async.
+    setTimeout(() => {
+      try {
         const { actions } = this.props
+
+        const wif = wallet.decrypt(encryptedWif, passPhrase)
         this.setState({ loading: false })
         actions.setAccount(wif)
-      })
-      .catch((e) => {
-        console.log('Incorrect credentials.')
-        this.setState({ loading: false, errorMessage: 'Incorrect credentials.' })
-      })
-  }
-
-  handleClick = (e) => {
-    const { actions } = this.props
-    e.preventDefault()
-    actions.setAccount('')
+      } catch(e) {
+        this.setState({ loading: false, errorMsg: e.message })
+      }
+    }, 500)
   }
 
   render() {
     const { loading, errorMsg } = this.state
     const { account } = this.props
 
-    if (account.wif !== '') {
-      const myAccount = Neon.create.account(account.wif)
+    if (loading) {
       return (
-        <div>
-          <Button ripple raised onClick={this.handleClick}>
-            Logout
-          </Button>
-          <div className={style.accountInfoContainer}>
-            <div className={style.accountInfo}><span className={style.breakWord}>Address: {myAccount.address}</span></div>
-            <div className={style.accountInfo} style="margin-top:10px;"><span className={style.breakWord}>Public key encoded: {myAccount.getPublicKey(true)}</span></div>
-          </div>
-        </div>
+        <Loader />
       )
+    }
+    if (account.wif !== '') {
+      return null
     }
     return (
       <div>
@@ -120,9 +108,6 @@ export default class Login extends Component {
             <Button raised ripple>Login</Button>
           </div>
         </form>
-        {loading &&
-          <div>Loading...</div>
-        }
         {errorMsg !== '' &&
           <div>ERROR: {errorMsg}</div>
         }
