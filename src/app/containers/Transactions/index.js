@@ -54,14 +54,15 @@ export default class Transactions extends Component {
 
   renderTransactions(transactions) {
     const listItems = transactions.map((transaction) =>
-      <li>
-        <div className={style.transactionId}>{transaction.txid}</div>
-        <div>NEO transferred: {transaction.NEO}</div>
-        <div>GAS transferred: {transaction.GAS}</div>
-      </li>
+        "Id: " + transaction.txid +
+        "\n NEO transferred: " +
+        transaction.NEO + "\n" +
+        " GAS transferred: " +
+        transaction.GAS + "\n\n"
     )
     return (
-      <ul>{listItems}</ul>
+      // <ul style="overflow: hidden;">{listItems}</ul>
+      <textarea readonly style="border: 0; bottom: 0;" rows="20" cols="40" name="transactionList">{listItems}</textarea>
     )
   }
 
@@ -84,7 +85,8 @@ export default class Transactions extends Component {
         {address && transactions.length > 0 &&
           (
             <div>
-              <div>Results for: {address}</div>
+              <div>Results for: <br/>{address}</div>
+            <br/>
               {this.renderTransactions(transactions)}
             </div>
           )
