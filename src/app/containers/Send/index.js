@@ -56,7 +56,8 @@ class Send extends Component {
     const { network, account } = this.props
     this.setState({
       loading: true,
-      errorMsg: ''
+      errorMsg: '',
+      txid: ''
     })
 
     if (!this.state.address || !this.state.amount) {
@@ -90,7 +91,7 @@ class Send extends Component {
         console.log(e)
         this.setState({
           loading: false,
-          errorMsg: e
+          errorMsg: ''+e
         })
       })
   }
@@ -135,11 +136,11 @@ class Send extends Component {
 
           <Button raised ripple>Send</Button>
         </form>
-
+        <br/>
         {txid &&
           <div>
             <div>Success!</div>
-            <div>txid: {txid}</div>
+            <div style="word-wrap: break-word; word-break: break-all;">Transaction ID:<br/> {txid}</div>
           </div>
         }
         {loading &&
