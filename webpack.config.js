@@ -5,12 +5,6 @@ var webpack = require("webpack"),
     HtmlWebpackPlugin = require("html-webpack-plugin"),
     WriteFilePlugin = require("write-file-webpack-plugin");
 
-// Setup react compat mode for preact
-var alias = {
-  "react": "preact-compat",
-  "react-dom": "preact-compat"
-};
-
 // load the secrets
 var secretsPath = path.join(__dirname, ("secrets." + env.NODE_ENV + ".js"));
 
@@ -53,7 +47,7 @@ var options = {
       },
       {
         test: /\.(css)$/,
-        include: [path.resolve(__dirname, 'node_modules/preact-material-components')],
+        include: [path.resolve(__dirname, 'node_modules/@material')],
         use: [
           { loader: "style-loader" },
           { loader: "css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]" },
@@ -86,8 +80,7 @@ var options = {
       path.resolve(__dirname, "src/lib"),
       path.resolve(__dirname, "node_modules"),
       'node_modules'
-    ],
-    alias: alias
+    ]
   },
   plugins: [
     // expose and write the allowed env vars on the compiled bundle

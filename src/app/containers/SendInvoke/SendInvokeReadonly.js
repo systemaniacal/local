@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
 
-import Button from 'preact-material-components/Button'
-import 'preact-material-components/Button/style.css'
-import 'preact-material-components/Theme/style.css'
+import { Button } from 'rmwc/Button'
+import '@material/button/dist/mdc.button.min.css'
 
-import { callInvoke } from '../../utils/neonWrappers';
+import { callInvoke } from '../../utils/neonWrappers'
 
 import style from './SendInvoke.css'
 import globalStyle from '../../components/ContentWrapper/ContentWrapper.css'
@@ -85,7 +84,7 @@ export default class SendInvokeReadonly extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit} style="padding-top:35px;">
+        <form onSubmit={this.handleSubmit} style={{paddingTop: '35px' }}>
           <div className={style.entryItem}>
             <span className={style.label}>Script Hash:</span>
             <span className={globalStyle.infoText}>{ transaction.scriptHash }</span>

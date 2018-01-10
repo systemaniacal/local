@@ -1,28 +1,18 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import NetworkSwitcher from '../NetworkSwitcher'
-import MainNav from '../MainNav'
-import style from './Header.css'
+import { setNetwork } from '../../actions/network'
 
-const Header = ({ showMenu }) => (
-  <div className={style.header}>
-    <NetworkSwitcher />
-    <div className={style.titleBar}>
-      { showMenu ? <div className={style.menuNavWrapper}><MainNav /></div> : null }
-      <div className={style.titleWrapper}>
-        <span className={style.titleName}>NeoLink</span>
-      </div>
-    </div>
-  </div>
-)
+import Header from './Header'
 
-Header.propTypes = {
-  showMenu: PropTypes.bool
+const mapStateToProps = (state: Object) => ({
+  network: state.network
+})
+
+const actionCreators = {
+  setNetwork
 }
 
-Header.defaultProps = {
-  showMenu: true
-}
+const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch)
 
-export default Header
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
