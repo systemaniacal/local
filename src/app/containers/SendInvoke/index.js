@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Button from 'preact-material-components/Button'
-import 'preact-material-components/Button/style.css'
-import 'preact-material-components/Theme/style.css'
-import TextField from 'preact-material-components/TextField'
-import 'preact-material-components/TextField/style.css'
-import Select from 'preact-material-components/Select'
-import 'preact-material-components/List/style.css'
-import 'preact-material-components/Menu/style.css'
-import 'preact-material-components/Select/style.css'
+import { Button } from 'rmwc/Button'
+import { TextField } from 'rmwc/TextField'
+import { Select } from 'rmwc/Select'
+import '@material/button/dist/mdc.button.min.css'
+import '@material/textfield/dist/mdc.textfield.min.css'
+import '@material/select/dist/mdc.select.min.css'
 
-import { callInvoke } from '../../utils/neonWrappers';
+import { callInvoke } from '../../utils/neonWrappers'
 
 import style from './SendInvoke.css'
 import withLoginCheck from '../../components/Login/withLoginCheck';
@@ -97,7 +94,7 @@ class SendInvoke extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit} style="padding-top:35px;">
+        <form onSubmit={this.handleSubmit} style={{ paddingTop: '35px' }}>
           <TextField
             type='text'
             placeholder='Script Hash'
@@ -133,20 +130,24 @@ class SendInvoke extends Component {
             id="amount"
             onChange={this._handleTextFieldChange}
           />
-          <Select hintText="Asset"
-            ref={(input) => {
-              this.type = input
-            }}
-            selectedIndex={this.state.assetType}
+          <Select cssOnly label="Asset"
+            value={this.state.assetType}
             onChange={(e) => {
               this.setState({
-                assetType: [e.selectedIndex]
+                assetType: e.target.value
               })
             }}
-          >
-            <Select.Item>NEO</Select.Item>
-            <Select.Item>GAS</Select.Item>
-          </Select>
+            options={[
+              {
+                label: 'NEO',
+                value: 'NEO'
+              },
+              {
+                label: 'GAS',
+                value: 'GAS'
+              }
+            ]}
+          />
           <Button raised ripple disabled={this.state.loading}>Invoke</Button>
         </form>
 

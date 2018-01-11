@@ -2,17 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { api } from '@cityofzion/neon-js'
-import Select from 'preact-material-components/Select'
-import 'preact-material-components/List/style.css'
-import 'preact-material-components/Menu/style.css'
-import 'preact-material-components/Select/style.css'
-
-import TextField from 'preact-material-components/TextField'
-import 'preact-material-components/TextField/style.css'
-
-import Button from 'preact-material-components/Button'
-import 'preact-material-components/Button/style.css'
-import 'preact-material-components/Theme/style.css'
+import { Button } from 'rmwc/Button'
+import { TextField } from 'rmwc/TextField'
+import { Select } from 'rmwc/Select'
+import { ListItem } from 'rmwc/List'
+import '@material/button/dist/mdc.button.min.css'
+import '@material/textfield/dist/mdc.textfield.min.css'
+import '@material/select/dist/mdc.select.min.css'
 
 import withLoginCheck from '../../components/Login/withLoginCheck';
 
@@ -118,19 +114,25 @@ class Send extends Component {
           />
 
 
-          <Select hintText="Asset"
-            ref={(input) => {
-              this.type = input
-            }}
-            selectedIndex={this.state.assetType}
+          <Select label="Asset"
+            cssOnly
+            value={this.state.assetType}
             onChange={(e) => {
               this.setState({
-                assetType: [e.selectedIndex]
+                assetType: e.target.value
               })
             }}
+            options={[
+              {
+                label: 'NEO',
+                value: 'NEO'
+              },
+              {
+                label: 'GAS',
+                value: 'GAS'
+              }
+            ]}
           >
-            <Select.Item>NEO</Select.Item>
-            <Select.Item>GAS</Select.Item>
           </Select>
 
 
@@ -140,7 +142,10 @@ class Send extends Component {
         {txid &&
           <div>
             <div>Success!</div>
-            <div style="word-wrap: break-word; word-break: break-all;">Transaction ID:<br/> {txid}</div>
+            <div style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+              <div>Transaction ID:</div>
+              <div>{txid}</div>
+            </div>
           </div>
         }
         {loading &&

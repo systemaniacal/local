@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -6,23 +7,14 @@ import * as NetworkActions from '../../actions/network'
 
 import style from './NetworkSwitcher.css'
 
-@connect(
-  state => ({
-    network: state.network
-  }),
-  dispatch => ({
-    actions: bindActionCreators(NetworkActions, dispatch)
-  })
-)
-
-export default class NetworkSwitcher extends Component {
+class NetworkSwitcher extends Component {
   change = (event) => {
-    const { actions } = this.props;
-    actions.switchNetwork(event.target.value)
+    const { setNetwork } = this.props;
+    setNetwork(event.target.value)
   }
 
   render () {
-    const { network, actions } = this.props
+    const { network } = this.props
     return (
       <div>
         <select className={style.switcher} defaultValue={network.name} onChange={this.change}>
@@ -33,3 +25,10 @@ export default class NetworkSwitcher extends Component {
     )
   }
 }
+
+NetworkSwitcher.propTypes = {
+  network: PropTypes.object,
+  setNetwork: PropTypes.func
+}
+
+export default NetworkSwitcher

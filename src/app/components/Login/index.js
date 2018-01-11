@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import Neon, { wallet } from '@cityofzion/neon-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Button from 'preact-material-components/Button'
-import 'preact-material-components/Button/style.css'
-import 'preact-material-components/Theme/style.css'
 
-import TextField from 'preact-material-components/TextField';
-import 'preact-material-components/TextField/style.css';
+import { Button } from 'rmwc/Button'
+import { TextField } from 'rmwc/TextField'
+import '@material/button/dist/mdc.button.min.css';
+import '@material/textfield/dist/mdc.textfield.min.css';
+
 
 import Loader from '../Loader'
 import * as AccountActions from '../../actions/account'
