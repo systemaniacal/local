@@ -2,7 +2,6 @@ var webpack = require('webpack'),
     path = require('path'),
     fileSystem = require('fs'),
     env = require('./utils/env'),
-    CleanWebpackPlugin = require('clean-webpack-plugin'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
     WriteFilePlugin = require('write-file-webpack-plugin');
 
@@ -100,7 +99,6 @@ var options = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['build']),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
     }),
