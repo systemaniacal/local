@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { Button } from 'rmwc/Button'
@@ -11,12 +12,12 @@ import '@material/select/dist/mdc.select.min.css'
 import { callInvoke } from '../../utils/neonWrappers'
 
 import style from './SendInvoke.css'
-import withLoginCheck from '../../components/Login/withLoginCheck';
+import withLoginCheck from '../../components/Login/withLoginCheck'
 
 @connect(
   state => ({
     network: state.network,
-    account: state.account
+    account: state.account,
   })
 )
 
@@ -36,31 +37,30 @@ class SendInvoke extends Component {
   state = {
     loading: false,
     errorMsg: '',
-    txid: ''
+    txid: '',
   }
 
   _handleTextFieldChange = (e) => {
     const key = e.target.id
     this.setState({
-      [key]: e.target.value
+      [key]: e.target.value,
     })
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const {network, account} = this.props
+    const { network, account } = this.props
 
     this.setState({
       loading: true,
       errorMsg: '',
-      txid: ''
+      txid: '',
     })
-
 
     if (!this.state.scriptHash || !this.state.operation || !this.state.amount) {
       this.setState({
         loading: false,
-        errorMsg: 'Error! Script hash, operation and amount are all required!'
+        errorMsg: 'Error! Script hash, operation and amount are all required!',
       })
 
       return
@@ -71,12 +71,12 @@ class SendInvoke extends Component {
         if (c.response.result === true) {
           this.setState({
             loading: false,
-            txid: c.response.txid
+            txid: c.response.txid,
           })
         } else {
           this.setState({
             loading: false,
-            errorMsg: 'Invoke failed'
+            errorMsg: 'Invoke failed',
           })
         }
       })
@@ -84,7 +84,7 @@ class SendInvoke extends Component {
         console.log('e', e)
         this.setState({
           loading: false,
-          errorMsg: 'Invoke failed'
+          errorMsg: 'Invoke failed',
         })
       })
   }
@@ -94,66 +94,66 @@ class SendInvoke extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit} style={{ paddingTop: '35px' }}>
+        <form onSubmit={ this.handleSubmit } style={ { paddingTop: '35px' } }>
           <TextField
             type='text'
             placeholder='Script Hash'
-            value={this.state.scriptHash}
-            id="scriptHash"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.scriptHash }
+            id='scriptHash'
+            onChange={ this._handleTextFieldChange }
           />
           <TextField
             type='text'
             placeholder='Operation'
-            value={this.state.operation}
-            id="operation"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.operation }
+            id='operation'
+            onChange={ this._handleTextFieldChange }
           />
           <TextField
             type='text'
             placeholder='Argument 1'
-            value={this.state.arg1}
-            id="arg1"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.arg1 }
+            id='arg1'
+            onChange={ this._handleTextFieldChange }
           />
           <TextField
             type='text'
             placeholder='Argument 2'
-            value={this.state.arg2}
-            id="arg2"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.arg2 }
+            id='arg2'
+            onChange={ this._handleTextFieldChange }
           />
           <TextField
             type='text'
             placeholder='Amount'
-            value={this.state.amount}
-            id="amount"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.amount }
+            id='amount'
+            onChange={ this._handleTextFieldChange }
           />
-          <Select cssOnly label="Asset"
-            value={this.state.assetType}
-            onChange={(e) => {
+          <Select cssOnly label='Asset'
+            value={ this.state.assetType }
+            onChange={ (e) => {
               this.setState({
-                assetType: e.target.value
+                assetType: e.target.value,
               })
-            }}
-            options={[
+            } }
+            options={ [
               {
                 label: 'NEO',
-                value: 'NEO'
+                value: 'NEO',
               },
               {
                 label: 'GAS',
-                value: 'GAS'
-              }
-            ]}
+                value: 'GAS',
+              },
+            ] }
           />
-          <Button raised ripple disabled={this.state.loading}>Invoke</Button>
+          <Button raised ripple disabled={ this.state.loading }>Invoke</Button>
         </form>
 
         { txid &&
           <div>
-            Success! txid: <span className={style.transactionId}>{ txid }</span>
+            Success! txid: <span className={ style.transactionId }>{ txid }</span>
           </div>
         }
         { loading &&
@@ -168,3 +168,8 @@ class SendInvoke extends Component {
 }
 
 export default withLoginCheck(SendInvoke)
+
+SendInvoke.propTypes = {
+  account: PropTypes.object,
+  network: PropTypes.object,
+}

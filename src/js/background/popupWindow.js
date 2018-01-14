@@ -15,12 +15,12 @@ function popWindow(type) {
     left: 100,
     top: 100,
     width: 310,
-    height: 570
+    height: 570,
   }
 
   if (type === 'open') {
     options.url = 'popupWindow.html'
-    var port = chrome.runtime.connect({name: 'popup'})
+    let port = chrome.runtime.connect({ name: 'popup' })
     chrome.windows.create(options, (win) => {
       windowId = win.id
     })
@@ -31,7 +31,7 @@ function popWindow(type) {
 
 chrome.runtime.onMessage.addListener((request, sender, sendContentResponse) => {
   if (request.msg === 'sendInvoke') {
-    const port = popWindow('open')
+    const port = popWindow('open') // eslint-disable-line no-unused-vars
 
     chrome.runtime.onConnect.addListener((port) => {
       port.postMessage({ operation: 'sendInvoke', txInfo: request.tx, senderId: sender.tab.id })

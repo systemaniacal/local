@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 
 import { shallow } from 'enzyme'
 
@@ -7,12 +7,12 @@ import NetworkSwitcher from '../../src/app/components/NetworkSwitcher'
 const setup = () => {
   const props = {
     network: { name: 'MainNet' },
-    setNetwork: jest.fn()
+    setNetwork: jest.fn(),
   }
-  const wrapper = shallow(<NetworkSwitcher {...props} />)
+  const wrapper = shallow(<NetworkSwitcher { ...props } />)
 
   return {
-    wrapper
+    wrapper,
   }
 }
 

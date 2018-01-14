@@ -1,16 +1,16 @@
 import * as ActionTypes from '../constants/ActionTypes'
 
 const initialState = {
-  wif: ''
+  wif: '',
 }
 
 const actionsMap = {
   [ActionTypes.SET_ACCOUNT] (state, action) {
     return {
       ...state,
-      wif: action.wif
+      wif: action.wif,
     }
-  }
+  },
 }
 
 export default function network (state = initialState, action) {

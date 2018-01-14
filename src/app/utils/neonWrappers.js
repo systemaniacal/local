@@ -1,15 +1,15 @@
 import Neon, { api } from '@cityofzion/neon-js'
 
 function string2Hex(tmp) {
-  var str = ''
-  for (var i = 0; i < tmp.length; i++) {
+  let str = ''
+  for (let i = 0; i < tmp.length; i++) {
     str += tmp[i].charCodeAt(0).toString(16)
   }
   return str
 }
 
 export function callInvoke (network, account, input) {
-  //Set Asset Type
+  // Set Asset Type
   let assetType
   if (input.assetType === 0) {
     assetType = 'NEO'
@@ -32,11 +32,11 @@ export function callInvoke (network, account, input) {
     intents: [{
       assetId: Neon.CONST.ASSET_ID[assetType],
       value: parseFloat(input.amount),
-      scriptHash: input.scriptHash
+      scriptHash: input.scriptHash,
     }],
     script: { scriptHash: input.scriptHash, operation: input.operation, args: args },
-    gas: 0
+    gas: 0,
   }
 
-  return api.doInvoke(config);
+  return api.doInvoke(config)
 }

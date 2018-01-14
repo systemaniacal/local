@@ -6,11 +6,11 @@ import { setNetwork } from '../../actions/network'
 import Header from './Header'
 
 const mapStateToProps = (state: Object) => ({
-  network: state.network
+  network: state.network,
 })
 
 const actionCreators = {
-  setNetwork
+  setNetwork,
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch)
