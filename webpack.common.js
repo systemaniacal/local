@@ -49,7 +49,6 @@ const options = {
               ],
             },
           },
-          { loader: 'eslint-loader' },
         ],
         exclude: [/node_modules/, /build/],
       },
