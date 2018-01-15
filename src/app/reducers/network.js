@@ -1,14 +1,14 @@
 import * as ActionTypes from '../constants/ActionTypes'
 
 const initialState = {
-  name: 'MainNet',
+  id: 0,
 }
 
 const actionsMap = {
   [ActionTypes.SWITCH_NETWORK] (state, action) {
     return {
       ...state,
-      name: action.network,
+      id: action.id,
     }
   },
 }

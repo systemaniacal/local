@@ -1,5 +1,5 @@
 import * as types from '../constants/ActionTypes'
 
-export function setNetwork (network) {
-  return { type: types.SWITCH_NETWORK, network }
+export function setNetwork (id) {
+  return { type: types.SWITCH_NETWORK, id }
 }

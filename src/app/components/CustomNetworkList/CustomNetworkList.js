@@ -1,0 +1,62 @@
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+import style from './CustomNetworkList.css'
+
+class CustomNetworkList extends Component {
+  delete = (index) => {
+    const { deleteCustomNetwork, setNetwork, network } = this.props
+
+    // If this is the current network they're using, reset to MainNet (index 0)
+    if (network.id === index) {
+      setNetwork(0)
+    }
+
+    deleteCustomNetwork(index)
+  }
+
+  render() {
+    const { networks } = this.props
+
+    const networkRows = []
+
+    networks.forEach((network, index) => {
+      if (network.canDelete) {
+        networkRows.push((
+          <div key={ `network-item-${index}` } className={ style.networkWrapper }>
+            <div className={ style.networkInfo }>
+              <div>{ network.name }</div>
+              <div>Endpoint: { network.url }</div>
+            </div>
+            <a className={ style.deleteIcon } onClick={ () => this.delete(index) }>
+              <svg fill='red' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'>
+                <path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' />
+                <path d='M0 0h24v24H0z' fill='none' />
+              </svg>
+            </a>
+          </div>
+        ))
+      }
+    })
+
+    let content = (<div>You have no custom networks defined</div>)
+    if (networkRows.length) {
+      content = <div>{ networkRows }</div>
+    }
+
+    return (
+      <div>
+        {content}
+      </div>
+    )
+  }
+}
+
+CustomNetworkList.propTypes = {
+  networks: PropTypes.array.isRequired,
+  deleteCustomNetwork: PropTypes.func.isRequired,
+  setNetwork: PropTypes.func.isRequired,
+  network: PropTypes.object.isRequired,
+}
+
+export default CustomNetworkList

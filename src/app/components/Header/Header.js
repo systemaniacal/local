@@ -5,9 +5,9 @@ import NetworkSwitcher from '../NetworkSwitcher'
 import MainNav from '../MainNav'
 import style from './Header.css'
 
-const Header = ({ showMenu, setNetwork, network }) => (
+const Header = ({ showMenu, setNetwork, network, config }) => (
   <div className={ style.header }>
-    <NetworkSwitcher setNetwork={ setNetwork } network={ network } />
+    <NetworkSwitcher setNetwork={ setNetwork } networkId={ network.id } networks={ config.networks } />
     <div className={ style.titleBar }>
       { showMenu ? <div className={ style.menuNavWrapper }><MainNav /></div> : null }
       <div className={ style.titleWrapper }>
@@ -21,6 +21,7 @@ Header.propTypes = {
   showMenu: PropTypes.bool,
   network: PropTypes.object,
   setNetwork: PropTypes.func,
+  config: PropTypes.object,
 }
 
 Header.defaultProps = {

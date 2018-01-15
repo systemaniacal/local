@@ -1,14 +1,23 @@
-import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-export default class Config extends Component {
-  render() {
-    return (
-      <div className='content'>
-        <p className='card-title'>Configuration</p>
-        <input id='configUseLoggedInAddress' type='checkbox' />Use Default Login Address
-        <button id='updateConfigButton'>Update</button>
-        <div id='modalContent' />
-      </div>
-    )
-  }
+import { setNetwork } from '../../actions/network'
+
+import { addCustomNetwork, deleteCustomNetwork } from '../../actions/config'
+
+import Config from './Config'
+
+const mapStateToProps = (state: Object) => ({
+  network: state.network,
+  config: state.config,
+})
+
+const actionCreators = {
+  addCustomNetwork,
+  deleteCustomNetwork,
+  setNetwork,
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Config)

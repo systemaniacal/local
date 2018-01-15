@@ -16,6 +16,7 @@ import withLoginCheck from '../../components/Login/withLoginCheck'
 
 @connect(
   state => ({
+    config: state.config,
     network: state.network,
     account: state.account,
   })
@@ -49,7 +50,7 @@ class SendInvoke extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network, account } = this.props
+    const { config, network, account } = this.props
 
     this.setState({
       loading: true,
@@ -66,7 +67,7 @@ class SendInvoke extends Component {
       return
     }
 
-    callInvoke(network, account, this.state)
+    callInvoke(config.networks[network.id].url, account, this.state)
       .then((c) => {
         if (c.response.result === true) {
           this.setState({
@@ -152,15 +153,15 @@ class SendInvoke extends Component {
         </form>
 
         { txid &&
-          <div>
+          <div className={ style.statusBox }>
             Success! txid: <span className={ style.transactionId }>{ txid }</span>
           </div>
         }
         { loading &&
-          <div>Loading...</div>
+          <div className={ style.statusBox }>Loading...</div>
         }
         { errorMsg !== '' &&
-          <div>ERROR: {errorMsg}</div>
+          <div className={ style.statusBox }>ERROR: {errorMsg}</div>
         }
       </div>
     )
@@ -172,4 +173,5 @@ export default withLoginCheck(SendInvoke)
 SendInvoke.propTypes = {
   account: PropTypes.object,
   network: PropTypes.object,
+  config: PropTypes.object,
 }

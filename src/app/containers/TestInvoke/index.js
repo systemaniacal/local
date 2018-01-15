@@ -11,6 +11,7 @@ import '@material/textfield/dist/mdc.textfield.min.css'
 
 @connect(
   state => ({
+    config: state.config,
     network: state.network,
   })
 )
@@ -45,7 +46,7 @@ export default class TestInvoke extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network } = this.props
+    const { config, network } = this.props
     this.setState({
       loading: true,
       errorMsg: '',
@@ -80,7 +81,7 @@ export default class TestInvoke extends Component {
       params: [this.state.scriptHash, this.state.operation, args],
     })
 
-    api.neonDB.getRPCEndpoint(network.name)
+    api.neonDB.getRPCEndpoint(config.networks[network.id].url)
       .then((endpoint) => {
         query.execute(endpoint)
           .then((response) => {
@@ -150,5 +151,6 @@ export default class TestInvoke extends Component {
 }
 
 TestInvoke.propTypes = {
+  config: PropTypes.object,
   network: PropTypes.object,
 }

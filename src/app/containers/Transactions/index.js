@@ -9,6 +9,7 @@ import '@material/textfield/dist/mdc.textfield.min.css'
 
 @connect(
   state => ({
+    config: state.config,
     network: state.network,
   })
 )
@@ -31,14 +32,14 @@ export default class Transactions extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network } = this.props
+    const { config, network } = this.props
     this.setState({
       loading: true,
       transactions: [],
       errorMsg: '',
       address: '',
     })
-    api.neonDB.getTransactionHistory(network.name, this.state.enteredAddress)
+    api.neonDB.getTransactionHistory(config.networks[network.id].url, this.state.enteredAddress)
       .then((result) => {
         this.setState({
           loading: false,
@@ -47,7 +48,7 @@ export default class Transactions extends Component {
         })
       })
       .catch((e) => {
-        this.setState({ loading: false, errorMessage: 'Could not retrieve the transactions for this address.' })
+        this.setState({ loading: false, errorMsg: 'Could not retrieve the transactions for this address.' })
       })
   }
 
@@ -61,7 +62,14 @@ export default class Transactions extends Component {
     )
     return (
       // <ul style="overflow: hidden;">{listItems}</ul>
-      <textarea readOnly style='border: 0; bottom: 0;' rows='20' cols='40' name='transactionList'>{listItems}</textarea>
+      <textarea
+        readOnly
+        style={ { border: 0, bottom: 0 } }
+        rows='20'
+        cols='40'
+        name='transactionList'
+        defaultValue={ listItems }
+      />
     )
   }
 
@@ -110,5 +118,6 @@ export default class Transactions extends Component {
 }
 
 Transactions.propTypes = {
+  config: PropTypes.object,
   network: PropTypes.object,
 }

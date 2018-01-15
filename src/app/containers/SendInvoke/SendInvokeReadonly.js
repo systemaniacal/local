@@ -12,6 +12,7 @@ import globalStyle from '../../components/ContentWrapper/ContentWrapper.css'
 
 @connect(
   state => ({
+    config: state.config,
     network: state.network,
     account: state.account,
   })
@@ -26,7 +27,7 @@ export default class SendInvokeReadonly extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network, account, transaction, onSuccess } = this.props
+    const { config, network, account, transaction, onSuccess } = this.props
 
     this.setState({
       loading: true,
@@ -34,7 +35,7 @@ export default class SendInvokeReadonly extends Component {
       txid: '',
     })
 
-    const config = {
+    const txConfig = {
       scriptHash: transaction.scriptHash,
       operation: transaction.operation,
       arg1: transaction.args[0],
@@ -43,7 +44,7 @@ export default class SendInvokeReadonly extends Component {
       assetType: transaction.type,
     }
 
-    callInvoke(network, account, config)
+    callInvoke(config.networks[network.id].url, account, txConfig)
       .then((c) => {
         if (c.response.result === true) {
           this.setState({
@@ -110,18 +111,18 @@ export default class SendInvokeReadonly extends Component {
             <span className={ globalStyle.infoText }>{ transaction.type }</span>
           </div>
           <Button raised ripple disabled={ this.state.loading || this.state.success }>Invoke</Button>
-        </form>
+        </form>>
         { txid &&
-          <div className={ style.successBox }>
+          <div className={ style.statusBox }>
             <div>Success!</div>
             <span className={ globalStyle.infoText }>txid: { txid }</span>
           </div>
         }
         { loading &&
-          <div>Loading...</div>
+          <div className={ style.statusBox }>Loading...</div>
         }
         { errorMsg !== '' &&
-          <div>ERROR: {errorMsg}</div>
+          <div className={ style.statusBox }>ERROR: {errorMsg}</div>
         }
       </div>
     )
@@ -131,6 +132,7 @@ export default class SendInvokeReadonly extends Component {
 SendInvokeReadonly.propTypes = {
   account: PropTypes.object,
   network: PropTypes.object,
+  config: PropTypes.object,
   transaction: PropTypes.object,
   onSuccess: PropTypes.func,
 }
