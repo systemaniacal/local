@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { api } from '@cityofzion/neon-js'
 import { Button } from 'rmwc/Button'
 import { TextField } from 'rmwc/TextField'
 import { Select } from 'rmwc/Select'
-import { ListItem } from 'rmwc/List'
 import '@material/button/dist/mdc.button.min.css'
 import '@material/textfield/dist/mdc.textfield.min.css'
 import '@material/select/dist/mdc.select.min.css'
 
-import withLoginCheck from '../../components/Login/withLoginCheck';
+import withLoginCheck from '../../components/Login/withLoginCheck'
 
 @connect(
   state => ({
     network: state.network,
-    account: state.account
+    account: state.account,
   })
 )
 
@@ -26,13 +26,13 @@ class Send extends Component {
     txid: '',
     assetType: 1,
     address: '',
-    amount: ''
+    amount: '',
   }
 
   _handleTextFieldChange = (e) => {
     const key = e.target.id
     this.setState({
-      [key]: e.target.value
+      [key]: e.target.value,
     })
   }
 
@@ -43,7 +43,7 @@ class Send extends Component {
       txid: '',
       assetType: 1,
       address: '',
-      amount: ''
+      amount: '',
     })
   }
 
@@ -53,19 +53,19 @@ class Send extends Component {
     this.setState({
       loading: true,
       errorMsg: '',
-      txid: ''
+      txid: '',
     })
 
     if (!this.state.address || !this.state.amount) {
       this.setState({
         loading: false,
-        errorMsg: 'All fields are required'
+        errorMsg: 'All fields are required',
       })
 
       return
     }
 
-    //Set Asset Type
+    // Set Asset Type
     let assetType
     if (this.state.assetType === 0) {
       assetType = 'NEO'
@@ -80,14 +80,14 @@ class Send extends Component {
         console.log(result)
         this.setState({
           loading: false,
-          txid: result.txid
+          txid: result.txid,
         })
       })
       .catch((e) => {
         console.log(e)
         this.setState({
           loading: false,
-          errorMsg: ''+e
+          errorMsg: '' + e,
         })
       })
   }
@@ -97,52 +97,49 @@ class Send extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={ this.handleSubmit }>
           <TextField
             type='text'
             placeholder='Address'
-            value={this.state.address}
-            id="address"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.address }
+            id='address'
+            onChange={ this._handleTextFieldChange }
           />
           <TextField
             type='text'
             placeholder='Amount'
-            value={this.state.amount}
-            id="amount"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.amount }
+            id='amount'
+            onChange={ this._handleTextFieldChange }
           />
 
-
-          <Select label="Asset"
+          <Select label='Asset'
             cssOnly
-            value={this.state.assetType}
-            onChange={(e) => {
+            value={ this.state.assetType }
+            onChange={ (e) => {
               this.setState({
-                assetType: e.target.value
+                assetType: e.target.value,
               })
-            }}
-            options={[
+            } }
+            options={ [
               {
                 label: 'NEO',
-                value: 'NEO'
+                value: 'NEO',
               },
               {
                 label: 'GAS',
-                value: 'GAS'
-              }
-            ]}
-          >
-          </Select>
-
+                value: 'GAS',
+              },
+            ] }
+          />
 
           <Button raised ripple>Send</Button>
         </form>
-        <br/>
+        <br />
         {txid &&
           <div>
             <div>Success!</div>
-            <div style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+            <div style={ { wordWrap: 'break-word', wordBreak: 'break-all' } }>
               <div>Transaction ID:</div>
               <div>{txid}</div>
             </div>
@@ -160,3 +157,8 @@ class Send extends Component {
 }
 
 export default withLoginCheck(Send)
+
+Send.propTypes = {
+  account: PropTypes.object,
+  network: PropTypes.object,
+}

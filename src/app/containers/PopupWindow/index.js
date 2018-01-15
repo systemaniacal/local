@@ -8,16 +8,16 @@ import style from '../App/App.css'
 
 export default class PopupWindow extends Component {
   state = {
+    success: false,
     transaction: null,
-    success: false
   }
 
   componentDidMount () {
-    this.port = chrome.runtime.connect({name: "popup"})
+    this.port = chrome.runtime.connect({ name: 'popup' })
     this.port.onMessage.addListener((message) => {
       if (message.operation === 'sendInvoke') {
         this.setState({
-          transaction: message.txInfo
+          transaction: message.txInfo,
         })
       }
     })
@@ -31,12 +31,12 @@ export default class PopupWindow extends Component {
     const { transaction } = this.state
 
     return (
-      <div className={style.popup}>
-        <Header showMenu={false} />
+      <div className={ style.popup }>
+        <Header showMenu={ false } />
         <ContentWrapper>
           { !transaction
             ? <div>Loading</div>
-            : <SendInvokeReadonly transaction={transaction} onSuccess={this.onSuccess} />
+            : <SendInvokeReadonly transaction={ transaction } onSuccess={ this.onSuccess } />
           }
         </ContentWrapper>
       </div>

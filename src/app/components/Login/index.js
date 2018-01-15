@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
-import Neon, { wallet } from '@cityofzion/neon-js'
+import PropTypes from 'prop-types'
+import { wallet } from '@cityofzion/neon-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { Button } from 'rmwc/Button'
 import { TextField } from 'rmwc/TextField'
-import '@material/button/dist/mdc.button.min.css';
-import '@material/textfield/dist/mdc.textfield.min.css';
-
+import '@material/button/dist/mdc.button.min.css'
+import '@material/textfield/dist/mdc.textfield.min.css'
 
 import Loader from '../Loader'
 import * as AccountActions from '../../actions/account'
 
 @connect(
   state => ({
-    account: state.account
+    account: state.account,
   }),
   dispatch => ({
-    actions: bindActionCreators(AccountActions, dispatch)
+    actions: bindActionCreators(AccountActions, dispatch),
   })
 )
 
@@ -26,17 +26,15 @@ export default class Login extends Component {
     errorMsg: '',
     loading: false,
     encryptedWif: '',
-    passPhrase: ''
+    passPhrase: '',
   }
-
 
   _handleTextFieldChange = (e) => {
     const key = e.target.id
     this.setState({
-      [key]: e.target.value
+      [key]: e.target.value,
     })
   }
-
 
   decryptWallet = (encryptedWif, passphrase) => {
     return new Promise((resolve, reject) => {
@@ -44,7 +42,7 @@ export default class Login extends Component {
         const wif = wallet.decrypt(encryptedWif, passphrase)
 
         if (!wif) {
-          reject(new Error("Couldn't load account"))
+          reject(new Error('Couldn\'t load account'))
         } else {
           resolve(wif)
         }
@@ -58,7 +56,7 @@ export default class Login extends Component {
     const { encryptedWif, passPhrase } = this.state
     this.setState({
       loading: true,
-      errorMsg: ''
+      errorMsg: '',
     })
 
     // Make wallet.decrypt() async.
@@ -69,7 +67,7 @@ export default class Login extends Component {
         const wif = wallet.decrypt(encryptedWif, passPhrase)
         this.setState({ loading: false })
         actions.setAccount(wif)
-      } catch(e) {
+      } catch (e) {
         this.setState({ loading: false, errorMsg: e.message })
       }
     }, 500)
@@ -89,20 +87,20 @@ export default class Login extends Component {
     }
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={ this.handleSubmit }>
           <TextField
             type='text'
             placeholder='Encrypted WIF'
-            value={this.state.encryptedWif}
-            id="encryptedWif"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.encryptedWif }
+            id='encryptedWif'
+            onChange={ this._handleTextFieldChange }
           />
           <TextField
             type='password'
             placeholder='Passphrase'
-            value={this.state.passPhrase}
-            id="passPhrase"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.passPhrase }
+            id='passPhrase'
+            onChange={ this._handleTextFieldChange }
           />
           <div>
             <Button raised ripple>Login</Button>
@@ -114,4 +112,9 @@ export default class Login extends Component {
       </div>
     )
   }
+}
+
+Login.propTypes = {
+  actions: PropTypes.object,
+  account: PropTypes.object,
 }

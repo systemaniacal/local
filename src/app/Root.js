@@ -9,7 +9,7 @@ export default class Root extends Component {
   render () {
     const { store, isPopupWindow } = this.props
     return (
-      <Provider store={store}>
+      <Provider store={ store }>
         <BrowserRouter>
           { isPopupWindow
             ? <PopupWindow />
@@ -23,5 +23,5 @@ export default class Root extends Component {
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,
-  isPopupWindow: PropTypes.bool.isRequired
+  isPopupWindow: PropTypes.bool.isRequired,
 }
