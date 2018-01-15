@@ -5,6 +5,7 @@ const env = require('./utils/env')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WriteFilePlugin = require('write-file-webpack-plugin')
 
+const context = path.resolve(__dirname, 'src')
 const fileExtensions = ['jpg', 'jpeg', 'png', 'gif', 'eot', 'otf', 'svg', 'ttf', 'woff', 'woff2']
 
 // load the secrets
@@ -15,6 +16,7 @@ if (fileSystem.existsSync(secretsPath)) {
 }
 
 const options = {
+  context,
   entry: {
     app: path.join(__dirname, 'src', 'js', 'app.js'),
     popup: path.join(__dirname, 'src', 'js', 'popup.js'),
@@ -36,7 +38,17 @@ const options = {
       {
         test: /\.js$/,
         use: [
-          { loader: 'babel-loader' },
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [
+                ['react-css-modules', {
+                  context,
+                  generateScopedName: '[name]__[local]___[hash:base64:5]',
+                }],
+              ],
+            },
+          },
           { loader: 'eslint-loader' },
         ],
         exclude: [/node_modules/, /build/],
