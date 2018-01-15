@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import Button from 'preact-material-components/Button'
-import 'preact-material-components/Button/style.css'
-import 'preact-material-components/Theme/style.css'
+import { Button } from 'rmwc/Button'
+import '@material/button/dist/mdc.button.min.css'
 
-import { callInvoke } from '../../utils/neonWrappers';
+import { callInvoke } from '../../utils/neonWrappers'
 
 import style from './SendInvoke.css'
 import globalStyle from '../../components/ContentWrapper/ContentWrapper.css'
@@ -14,7 +13,7 @@ import globalStyle from '../../components/ContentWrapper/ContentWrapper.css'
 @connect(
   state => ({
     network: state.network,
-    account: state.account
+    account: state.account,
   })
 )
 
@@ -22,17 +21,17 @@ export default class SendInvokeReadonly extends Component {
   state = {
     loading: false,
     errorMsg: '',
-    txid: ''
+    txid: '',
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const {network, account, transaction, onSuccess } = this.props
+    const { network, account, transaction, onSuccess } = this.props
 
     this.setState({
       loading: true,
       errorMsg: '',
-      txid: ''
+      txid: '',
     })
 
     const config = {
@@ -41,7 +40,7 @@ export default class SendInvokeReadonly extends Component {
       arg1: transaction.args[0],
       arg2: transaction.args[1],
       amount: transaction.amount,
-      assetType: transaction.type
+      assetType: transaction.type,
     }
 
     callInvoke(network, account, config)
@@ -49,7 +48,7 @@ export default class SendInvokeReadonly extends Component {
         if (c.response.result === true) {
           this.setState({
             loading: false,
-            txid: c.response.txid
+            txid: c.response.txid,
           })
 
           if (onSuccess) {
@@ -58,7 +57,7 @@ export default class SendInvokeReadonly extends Component {
         } else {
           this.setState({
             loading: false,
-            errorMsg: 'Invoke failed'
+            errorMsg: 'Invoke failed',
           })
         }
       })
@@ -66,7 +65,7 @@ export default class SendInvokeReadonly extends Component {
         console.log('e', e)
         this.setState({
           loading: false,
-          errorMsg: 'Invoke failed'
+          errorMsg: 'Invoke failed',
         })
       })
   }
@@ -85,37 +84,37 @@ export default class SendInvokeReadonly extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit} style="padding-top:35px;">
-          <div className={style.entryItem}>
-            <span className={style.label}>Script Hash:</span>
-            <span className={globalStyle.infoText}>{ transaction.scriptHash }</span>
+        <form onSubmit={ this.handleSubmit } style={ { paddingTop: '35px' } }>
+          <div className={ style.entryItem }>
+            <span className={ style.label }>Script Hash:</span>
+            <span className={ globalStyle.infoText }>{ transaction.scriptHash }</span>
           </div>
-          <div className={style.entryItem}>
-            <span className={style.label}>Operation:</span>
-            <span className={globalStyle.infoText}>{ transaction.operation }</span>
+          <div className={ style.entryItem }>
+            <span className={ style.label }>Operation:</span>
+            <span className={ globalStyle.infoText }>{ transaction.operation }</span>
           </div>
-          <div className={style.entryItem}>
-            <span className={style.label}>Argument 1:</span>
-            <span className={globalStyle.infoText}>{ transaction.args[0] }</span>
+          <div className={ style.entryItem }>
+            <span className={ style.label }>Argument 1:</span>
+            <span className={ globalStyle.infoText }>{ transaction.args[0] }</span>
           </div>
-          <div className={style.entryItem}>
-            <span className={style.label}>Argument 2:</span>
-            <span className={globalStyle.infoText}>{ transaction.args[1] }</span>
+          <div className={ style.entryItem }>
+            <span className={ style.label }>Argument 2:</span>
+            <span className={ globalStyle.infoText }>{ transaction.args[1] }</span>
           </div>
-          <div className={style.entryItem}>
-            <span className={style.label}>Amount:</span>
-            <span className={globalStyle.infoText}>{ transaction.amount }</span>
+          <div className={ style.entryItem }>
+            <span className={ style.label }>Amount:</span>
+            <span className={ globalStyle.infoText }>{ transaction.amount }</span>
           </div>
-          <div className={style.entryItem}>
-            <span className={style.label}>Asset:</span>
-            <span className={globalStyle.infoText}>{ transaction.type }</span>
+          <div className={ style.entryItem }>
+            <span className={ style.label }>Asset:</span>
+            <span className={ globalStyle.infoText }>{ transaction.type }</span>
           </div>
-          <Button raised ripple disabled={this.state.loading || this.state.success}>Invoke</Button>
+          <Button raised ripple disabled={ this.state.loading || this.state.success }>Invoke</Button>
         </form>
         { txid &&
-          <div className={style.successBox}>
+          <div className={ style.successBox }>
             <div>Success!</div>
-            <span className={globalStyle.infoText}>txid: { txid }</span>
+            <span className={ globalStyle.infoText }>txid: { txid }</span>
           </div>
         }
         { loading &&
@@ -127,4 +126,11 @@ export default class SendInvokeReadonly extends Component {
       </div>
     )
   }
+}
+
+SendInvokeReadonly.propTypes = {
+  account: PropTypes.object,
+  network: PropTypes.object,
+  transaction: PropTypes.object,
+  onSuccess: PropTypes.func,
 }

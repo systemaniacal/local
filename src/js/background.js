@@ -8,9 +8,9 @@ global.Promise = bluebird
 function DOMPromisifier(originalMethod) {
   // return a function
   return function promisified() {
-    var args = [].slice.call(arguments)
+    let args = [].slice.call(arguments)
     // Needed so that the original method can be called with the correct receiver
-    var self = this
+    let self = this
     // which returns a promise
     return new Promise((resolve, reject) => {
       args.push(resolve, reject)
@@ -27,11 +27,11 @@ function promisifyAll (obj, list) {
 promisifyAll(chrome, [
   'tabs',
   'windows',
-  'browserAction'
+  'browserAction',
 ])
 
 promisifyAll(chrome.storage, [
-  'local'
+  'local',
 ])
 
 require('./background/popupWindow')

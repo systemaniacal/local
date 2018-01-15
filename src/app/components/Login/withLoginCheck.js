@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import Login from './'
@@ -6,10 +7,12 @@ import Login from './'
 function withLoginCheck(Component) {
   class WithLoginCheckComponent extends React.Component {
     render() {
-      if (!this.props.account || !this.props.account.wif) {
+      const { account } = this.props
+
+      if (!account || !account.wif) {
         return <Login />
       } else {
-        return <Component {...this.props} />
+        return <Component { ...this.props } />
       }
     }
   }
@@ -18,8 +21,11 @@ function withLoginCheck(Component) {
     return { account: state.account }
   }
 
+  WithLoginCheckComponent.propTypes = {
+    account: PropTypes.object,
+  }
+
   return connect(mapStateToProps)(WithLoginCheckComponent)
 }
 
-export default withLoginCheck;
-
+export default withLoginCheck

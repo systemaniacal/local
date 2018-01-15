@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { api } from '@cityofzion/neon-js'
-import Button from 'preact-material-components/Button'
-import 'preact-material-components/Button/style.css'
-import 'preact-material-components/Theme/style.css'
-import TextField from 'preact-material-components/TextField'
-import 'preact-material-components/TextField/style.css'
+import { Button } from 'rmwc/Button'
+import { TextField } from 'rmwc/TextField'
+import '@material/button/dist/mdc.button.min.css'
+import '@material/textfield/dist/mdc.textfield.min.css'
 
 @connect(
   state => ({
-    network: state.network
+    network: state.network,
   })
 )
 
@@ -21,13 +21,13 @@ export default class Balance extends Component {
     haveBalance: false,
     NEO: 0,
     GAS: 0,
-    balanceAddress: ''
+    balanceAddress: '',
   }
 
   _handleTextFieldChange = (e) => {
     const key = e.target.id
     this.setState({
-      [key]: e.target.value
+      [key]: e.target.value,
     })
   }
 
@@ -39,7 +39,7 @@ export default class Balance extends Component {
       NEO: 0,
       GAS: 0,
       address: '',
-      balanceAddress: ''
+      balanceAddress: '',
     })
   }
 
@@ -50,7 +50,7 @@ export default class Balance extends Component {
       loading: true,
       haveBalance: false,
       errorMsg: '',
-      address: ''
+      address: '',
     })
     api.neonDB.getBalance(network.name, this.state.balanceAddress)
       .then((result) => {
@@ -59,7 +59,7 @@ export default class Balance extends Component {
           haveBalance: true,
           NEO: result.NEO.balance,
           GAS: result.GAS.balance,
-          address: this.state.balanceAddress
+          address: this.state.balanceAddress,
         })
       })
       .catch((e) => {
@@ -72,13 +72,13 @@ export default class Balance extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={ this.handleSubmit }>
           <TextField
             type='text'
             placeholder='Address'
-            value={this.state.balanceAddress}
-            id="balanceAddress"
-            onChange={this._handleTextFieldChange}
+            value={ this.state.balanceAddress }
+            id='balanceAddress'
+            onChange={ this._handleTextFieldChange }
           />
           <Button raised ripple>Get Balance</Button>
         </form>
@@ -98,4 +98,8 @@ export default class Balance extends Component {
       </div>
     )
   }
+}
+
+Balance.propTypes = {
+  network: PropTypes.object,
 }

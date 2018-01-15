@@ -1,16 +1,16 @@
 import * as ActionTypes from '../constants/ActionTypes'
 
 const initialState = {
-  name: 'MainNet'
+  name: 'MainNet',
 }
 
 const actionsMap = {
   [ActionTypes.SWITCH_NETWORK] (state, action) {
     return {
       ...state,
-      name: action.network
+      name: action.network,
     }
-  }
+  },
 }
 
 export default function network (state = initialState, action) {
