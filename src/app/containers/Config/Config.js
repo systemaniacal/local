@@ -7,6 +7,8 @@ import '@material/tabs/dist/mdc.tabs.min.css'
 import CustomNetworkList from '../../components/CustomNetworkList'
 import AddCustomNetwork from '../../components/AddCustomNetwork'
 
+import style from './Config.css'
+
 class Config extends Component {
   state = {
     activeTabIndex: 0,
@@ -31,11 +33,7 @@ class Config extends Component {
     return (
       <div>
         <TabBar
-          style={ {
-            position: 'absolute',
-            top: '15px',
-            left: '20px',
-          } }
+          className={ style.tabBar }
           activeTabIndex={ this.state.activeTabIndex || 0 }
           onChange={ evt => this.setState({ 'activeTabIndex': evt.target.value }) }
         >

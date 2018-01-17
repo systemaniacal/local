@@ -15,11 +15,8 @@ class CustomNetworkList extends Component {
     deleteCustomNetwork(index)
   }
 
-  render() {
-    const { networks } = this.props
-
+  generateNetworkRows(networks) {
     const networkRows = []
-
     networks.forEach((network, index) => {
       if (network.canDelete) {
         networkRows.push((
@@ -39,10 +36,15 @@ class CustomNetworkList extends Component {
       }
     })
 
-    let content = (<div>You have no custom networks defined</div>)
-    if (networkRows.length) {
-      content = <div>{ networkRows }</div>
-    }
+    return networkRows
+  }
+
+  render() {
+    const { networks } = this.props
+
+    const networkRows = this.generateNetworkRows(networks)
+
+    const content = networkRows.length ? <div>{ networkRows }</div> : 'You have no custom networks defined'
 
     return (
       <div>

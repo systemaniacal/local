@@ -9,9 +9,7 @@ class NetworkSwitcher extends Component {
     setNetwork(parseInt(event.target.value))
   }
 
-  render () {
-    const { networkId, networks } = this.props
-
+  generateNetworkOptions(networks) {
     const networkOptions = []
 
     networks.forEach((network, index) => {
@@ -19,6 +17,14 @@ class NetworkSwitcher extends Component {
         <option key={ `option-key-${index}` } value={ index }>{ network.name }</option>
       ))
     })
+
+    return networkOptions
+  }
+
+  render () {
+    const { networkId, networks } = this.props
+
+    const networkOptions = this.generateNetworkOptions(networks)
 
     return (
       <div>

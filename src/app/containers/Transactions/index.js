@@ -61,7 +61,6 @@ export default class Transactions extends Component {
         transaction.GAS + '\n\n'
     )
     return (
-      // <ul style="overflow: hidden;">{listItems}</ul>
       <textarea
         readOnly
         style={ { border: 0, bottom: 0 } }

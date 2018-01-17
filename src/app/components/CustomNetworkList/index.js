@@ -1,2 +1,1 @@
-import CustomNetworkList from './CustomNetworkList'
-export default CustomNetworkList
+export { default } from './CustomNetworkList'

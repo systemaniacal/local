@@ -1,2 +1,1 @@
-import AddCustomNetwork from './AddCustomNetwork'
-export default AddCustomNetwork
+export { default } from './AddCustomNetwork'
