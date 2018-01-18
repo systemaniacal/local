@@ -12,7 +12,7 @@
     "lintFix": "eslint ./ --fix",
     "start": "node utils/webserver.js",
     "test": "jest",
-    "prepush": "echo 'running lint...' && yarn lint && echo 'running tests...' && yarn test"
+    "prepush": "echo 'running lint...' && npm run lint && echo 'running tests...' && npm test"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
