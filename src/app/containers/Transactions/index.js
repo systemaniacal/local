@@ -9,8 +9,8 @@ import '@material/textfield/dist/mdc.textfield.min.css'
 
 @connect(
   state => ({
-    config: state.config,
-    network: state.network,
+    selectedNetworkId: state.config.selectedNetworkId,
+    networks: state.config.networks,
   })
 )
 
@@ -32,14 +32,14 @@ export default class Transactions extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { config, network } = this.props
+    const { selectedNetworkId, networks } = this.props
     this.setState({
       loading: true,
       transactions: [],
       errorMsg: '',
       address: '',
     })
-    api.neonDB.getTransactionHistory(config.networks[network.id].url, this.state.enteredAddress)
+    api.neonDB.getTransactionHistory(networks[selectedNetworkId].url, this.state.enteredAddress)
       .then((result) => {
         this.setState({
           loading: false,
@@ -117,6 +117,6 @@ export default class Transactions extends Component {
 }
 
 Transactions.propTypes = {
-  config: PropTypes.object,
-  network: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
+  networks: PropTypes.object,
 }

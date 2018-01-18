@@ -7,11 +7,11 @@ import MainNav from '../MainNav'
 import './Header.css'
 
 const Header = (props) => {
-  const { showMenu, setNetwork, network, config } = props
+  const { showMenu, setNetwork, selectedNetworkId, networks } = props
 
   return (
     <div styleName='header'>
-      <NetworkSwitcher setNetwork={ setNetwork } networkId={ network.id } networks={ config.networks }  />
+      <NetworkSwitcher setNetwork={ setNetwork } selectedNetworkId={ selectedNetworkId } networks={ networks } />
       <div styleName='titleBar'>
         { showMenu ? <div styleName='menuNavWrapper'><MainNav /></div> : null }
         <div styleName='titleWrapper'>
@@ -24,9 +24,9 @@ const Header = (props) => {
 
 Header.propTypes = {
   showMenu: PropTypes.bool,
-  network: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
   setNetwork: PropTypes.func,
-  config: PropTypes.object,
+  networks: PropTypes.object,
 }
 
 Header.defaultProps = {

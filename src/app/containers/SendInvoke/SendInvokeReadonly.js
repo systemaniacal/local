@@ -12,8 +12,8 @@ import globalStyle from '../../components/ContentWrapper/ContentWrapper.css'
 
 @connect(
   state => ({
-    config: state.config,
-    network: state.network,
+    selectedNetworkId: state.config.selectedNetworkId,
+    networks: state.config.networks,
     account: state.account,
   })
 )
@@ -27,7 +27,7 @@ export default class SendInvokeReadonly extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { config, network, account, transaction, onSuccess } = this.props
+    const { selectedNetworkId, networks, account, transaction, onSuccess } = this.props
 
     this.setState({
       loading: true,
@@ -44,7 +44,7 @@ export default class SendInvokeReadonly extends Component {
       assetType: transaction.type,
     }
 
-    callInvoke(config.networks[network.id].url, account, txConfig)
+    callInvoke(networks[selectedNetworkId].url, account, txConfig)
       .then((c) => {
         if (c.response.result === true) {
           this.setState({
@@ -131,8 +131,8 @@ export default class SendInvokeReadonly extends Component {
 
 SendInvokeReadonly.propTypes = {
   account: PropTypes.object,
-  network: PropTypes.object,
-  config: PropTypes.object,
+  networks: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
   transaction: PropTypes.object,
   onSuccess: PropTypes.func,
 }

@@ -1,15 +1,13 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { setNetwork } from '../../actions/network'
-
-import { addCustomNetwork, deleteCustomNetwork } from '../../actions/config'
+import { addCustomNetwork, setNetwork, deleteCustomNetwork } from '../../actions/config'
 
 import Config from './Config'
 
 const mapStateToProps = (state: Object) => ({
-  network: state.network,
-  config: state.config,
+  selectedNetworkId: state.config.selectedNetworkId,
+  networks: state.config.networks,
 })
 
 const actionCreators = {

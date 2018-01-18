@@ -7,3 +7,7 @@ export function addCustomNetwork (name, url) {
 export function deleteCustomNetwork (id) {
   return { type: types.DELETE_CUSTOM_NETWORK, id }
 }
+
+export function setNetwork (id) {
+  return { type: types.SWITCH_NETWORK, id }
+}

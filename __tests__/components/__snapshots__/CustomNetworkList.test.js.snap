@@ -6,25 +6,21 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <CustomNetworkList
     deleteCustomNetwork={[MockFunction]}
-    network={
-      Object {
-        "id": 0,
-      }
-    }
     networks={
-      Array [
-        Object {
-          "canDelete": false,
-          "name": "MainNet",
-          "url": "http://api.wallet.cityofzion.io",
-        },
-        Object {
+      Object {
+        "Local": Object {
           "canDelete": true,
           "name": "local",
           "url": "http://127.0.0.1:5000",
         },
-      ]
+        "MainNet": Object {
+          "canDelete": false,
+          "name": "MainNet",
+          "url": "http://api.wallet.cityofzion.io",
+        },
+      }
     }
+    selectedNetworkId="MainNet"
     setNetwork={[MockFunction]}
   />,
   Symbol(enzyme.__renderer__): Object {
@@ -125,7 +121,7 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": "network-item-1",
+          "key": "network-item-Local",
           "nodeType": "host",
           "props": Object {
             "children": Array [
@@ -388,7 +384,7 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": "network-item-1",
+            "key": "network-item-Local",
             "nodeType": "host",
             "props": Object {
               "children": Array [

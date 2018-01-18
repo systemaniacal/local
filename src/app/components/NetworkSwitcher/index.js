@@ -6,29 +6,28 @@ import style from './NetworkSwitcher.css'
 class NetworkSwitcher extends Component {
   change = (event) => {
     const { setNetwork } = this.props
-    setNetwork(parseInt(event.target.value))
+    setNetwork(event.target.value)
   }
 
   generateNetworkOptions(networks) {
     const networkOptions = []
 
-    networks.forEach((network, index) => {
+    Object.keys(networks).forEach((index) => {
       networkOptions.push((
-        <option key={ `option-key-${index}` } value={ index }>{ network.name }</option>
+        <option key={ `option-key-${index}` } value={ index }>{ networks[index].name }</option>
       ))
     })
-
     return networkOptions
   }
 
   render () {
-    const { networkId, networks } = this.props
+    const { selectedNetworkId, networks } = this.props
 
     const networkOptions = this.generateNetworkOptions(networks)
 
     return (
       <div>
-        <select className={ style.switcher } defaultValue={ networkId } onChange={ this.change }>
+        <select className={ style.switcher } defaultValue={ selectedNetworkId } onChange={ this.change }>
           { networkOptions }
         </select>
       </div>
@@ -37,9 +36,9 @@ class NetworkSwitcher extends Component {
 }
 
 NetworkSwitcher.propTypes = {
-  networkId: PropTypes.number,
+  selectedNetworkId: PropTypes.string,
   setNetwork: PropTypes.func,
-  networks: PropTypes.array,
+  networks: PropTypes.object,
 }
 
 export default NetworkSwitcher

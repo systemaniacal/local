@@ -5,11 +5,11 @@ import style from './CustomNetworkList.css'
 
 class CustomNetworkList extends Component {
   delete = (index) => {
-    const { deleteCustomNetwork, setNetwork, network } = this.props
+    const { deleteCustomNetwork, setNetwork, selectedNetworkId } = this.props
 
     // If this is the current network they're using, reset to MainNet (index 0)
-    if (network.id === index) {
-      setNetwork(0)
+    if (selectedNetworkId === index) {
+      setNetwork('MainNet')
     }
 
     deleteCustomNetwork(index)
@@ -17,7 +17,8 @@ class CustomNetworkList extends Component {
 
   generateNetworkRows(networks) {
     const networkRows = []
-    networks.forEach((network, index) => {
+    Object.keys(networks).forEach((index) => {
+      const network = networks[index]
       if (network.canDelete) {
         networkRows.push((
           <div key={ `network-item-${index}` } className={ style.networkWrapper }>
@@ -55,10 +56,10 @@ class CustomNetworkList extends Component {
 }
 
 CustomNetworkList.propTypes = {
-  networks: PropTypes.array.isRequired,
+  networks: PropTypes.object.isRequired,
   deleteCustomNetwork: PropTypes.func.isRequired,
   setNetwork: PropTypes.func.isRequired,
-  network: PropTypes.object.isRequired,
+  selectedNetworkId: PropTypes.string.isRequired,
 }
 
 export default CustomNetworkList

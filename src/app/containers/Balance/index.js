@@ -10,8 +10,8 @@ import '@material/textfield/dist/mdc.textfield.min.css'
 
 @connect(
   state => ({
-    network: state.network,
-    config: state.config,
+    selectedNetworkId: state.config.selectedNetworkId,
+    networks: state.config.networks,
   })
 )
 
@@ -46,7 +46,7 @@ export default class Balance extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { config, network } = this.props
+    const { networks, selectedNetworkId } = this.props
     this.setState({
       loading: true,
       haveBalance: false,
@@ -54,7 +54,7 @@ export default class Balance extends Component {
       address: '',
     })
 
-    api.neonDB.getBalance(config.networks[network.id]['url'], this.state.balanceAddress)
+    api.neonDB.getBalance(networks[selectedNetworkId]['url'], this.state.balanceAddress)
       .then((result) => {
         this.setState({
           loading: false,
@@ -103,6 +103,6 @@ export default class Balance extends Component {
 }
 
 Balance.propTypes = {
-  network: PropTypes.object,
-  config: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
+  networks: PropTypes.object,
 }

@@ -16,7 +16,7 @@ class Config extends Component {
 
   render() {
     const { activeTabIndex } = this.state
-    const { addCustomNetwork, deleteCustomNetwork, setNetwork, config, network } = this.props
+    const { addCustomNetwork, deleteCustomNetwork, setNetwork, networks, selectedNetworkId } = this.props
 
     let tabContent = null
     if (activeTabIndex === 1) {
@@ -25,8 +25,8 @@ class Config extends Component {
       tabContent = <CustomNetworkList
         deleteCustomNetwork={ deleteCustomNetwork }
         setNetwork={ setNetwork }
-        network={ network }
-        networks={ config.networks }
+        selectedNetworkId={ selectedNetworkId }
+        networks={ networks }
       />
     }
 
@@ -47,8 +47,8 @@ class Config extends Component {
 }
 
 Config.propTypes = {
-  network: PropTypes.object,
-  config: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
+  networks: PropTypes.object,
   setNetwork: PropTypes.func,
   addCustomNetwork: PropTypes.func,
   deleteCustomNetwork: PropTypes.func,

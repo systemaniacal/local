@@ -4,13 +4,13 @@ import { shallow } from 'enzyme'
 
 import CustomNetworkList from '../../src/app/components/CustomNetworkList'
 
-const setup = (networkId = 0) => {
+const setup = (selectedNetworkId = 'MainNet') => {
   const props = {
-    networks: [
-      { name: 'MainNet', url: 'http://api.wallet.cityofzion.io', canDelete: false },
-      { name: 'local', url: 'http://127.0.0.1:5000', canDelete: true },
-    ],
-    network: { id: networkId },
+    networks: {
+      MainNet: { name: 'MainNet', url: 'http://api.wallet.cityofzion.io', canDelete: false },
+      Local: { name: 'local', url: 'http://127.0.0.1:5000', canDelete: true },
+    },
+    selectedNetworkId,
     deleteCustomNetwork: jest.fn(),
     setNetwork: jest.fn(),
   }
@@ -39,7 +39,7 @@ describe('CustomNetworkList', () => {
   })
 
   test('delete network works', async () => {
-    const { wrapper } = setup(1)
+    const { wrapper } = setup('Local')
     const instance = wrapper.instance()
 
     // MainNet shouldn't show on this list, as it's not a custom network (canDelete = false).
@@ -49,7 +49,7 @@ describe('CustomNetworkList', () => {
     expect(wrapper.contains('local')).toEqual(true)
 
     wrapper.find('a').simulate('click')
-    expect(instance.props.setNetwork).toHaveBeenCalledWith(0)
-    expect(instance.props.deleteCustomNetwork).toHaveBeenCalledWith(1)
+    expect(instance.props.setNetwork).toHaveBeenCalledWith('MainNet')
+    expect(instance.props.deleteCustomNetwork).toHaveBeenCalledWith('Local')
   })
 })
