@@ -4,9 +4,9 @@ import * as ActionTypes from '../constants/ActionTypes'
 
 const initialState = {
   networks: {
-    'MainNet': { name: 'MainNet', url: 'http://api.wallet.cityofzion.io', canDelete: false },
-    'TestNet': { name: 'TestNet', url: 'http://testnet-api.wallet.cityofzion.io', canDelete: false },
-    'CoZTestNet': { name: 'CoZ TestNet', url: 'http://coz-privatenet.herokuapp.com/', canDelete: false },
+    'MainNet': { name: 'MainNet', url: 'http://api.wallet.cityofzion.io', canDelete: false, apiType: 'neondb' },
+    'TestNet': { name: 'TestNet', url: 'http://testnet-api.wallet.cityofzion.io', canDelete: false, apiType: 'neondb' },
+    'CoZTestNet': { name: 'CoZ TestNet', url: 'http://coz-privatenet.herokuapp.com/', canDelete: false, apiType: 'neondb' },
   },
   selectedNetworkId: 'MainNet',
 }
@@ -20,7 +20,7 @@ const actionsMap = {
   },
   [ActionTypes.ADD_CUSTOM_NETWORK] (state, action) {
     const networks = { ...state.networks }
-    networks[uuidv4()] = { name: action.name, url: action.url, canDelete: true }
+    networks[uuidv4()] = { name: action.name, url: action.url, canDelete: true, apiType: 'neondb' }
 
     return {
       ...state,

@@ -7,7 +7,7 @@ class CustomNetworkList extends Component {
   delete = (index) => {
     const { deleteCustomNetwork, setNetwork, selectedNetworkId } = this.props
 
-    // If this is the current network they're using, reset to MainNet (index 0)
+    // If this is the current network they're using, reset to MainNet
     if (selectedNetworkId === index) {
       setNetwork('MainNet')
     }

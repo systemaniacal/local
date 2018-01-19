@@ -7,6 +7,8 @@ import { TextField } from 'rmwc/TextField'
 import '@material/button/dist/mdc.button.min.css'
 import '@material/textfield/dist/mdc.textfield.min.css'
 
+import style from './Transactions.css'
+
 @connect(
   state => ({
     selectedNetworkId: state.config.selectedNetworkId,
@@ -63,7 +65,7 @@ export default class Transactions extends Component {
     return (
       <textarea
         readOnly
-        style={ { border: 0, bottom: 0 } }
+        className={ style.textAreaReset }
         rows='20'
         cols='40'
         name='transactionList'

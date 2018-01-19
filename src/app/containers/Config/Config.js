@@ -37,8 +37,8 @@ class Config extends Component {
           activeTabIndex={ this.state.activeTabIndex || 0 }
           onChange={ evt => this.setState({ 'activeTabIndex': evt.target.value }) }
         >
-          <Tab style={ { display: 'table-cell' } }>Networks</Tab>
-          <Tab style={ { display: 'table-cell' } }>Add</Tab>
+          <Tab className={ style.tab }>Networks</Tab>
+          <Tab className={ style.tab }>Add</Tab>
         </TabBar>
         { tabContent }
       </div>
