@@ -11,6 +11,7 @@ import '@material/textfield/dist/mdc.textfield.min.css'
 import '@material/select/dist/mdc.select.min.css'
 
 import withLoginCheck from '../../components/Login/withLoginCheck'
+import { toNumber } from '../../utils/math'
 
 @connect(
   state => ({
@@ -24,7 +25,7 @@ class Send extends Component {
     errorMsg: '',
     loading: false,
     txid: '',
-    assetType: 1,
+    assetType: 'NEO',
     address: '',
     amount: '',
   }
@@ -65,16 +66,18 @@ class Send extends Component {
       return
     }
 
-    // Set Asset Type
-    let assetType
-    if (this.state.assetType === 0) {
-      assetType = 'NEO'
-    } else {
-      assetType = 'GAS'
+    // Validate Asset Type
+    if (this.state.assetType !== 'NEO' && this.state.assetType !== 'GAS') {
+      this.setState({
+        loading: false,
+        errorMsg: 'Asset Type invalid',
+      })
+
+      return
     }
 
     let amounts = {}
-    amounts[assetType] = parseFloat(this.state.amount)
+    amounts[this.state.assetType] = toNumber(this.state.amount)
     api.neonDB.doSendAsset(network.name, this.state.address, account.wif, amounts)
       .then((result) => {
         console.log(result)
