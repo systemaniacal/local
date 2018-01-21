@@ -14,7 +14,8 @@ import withLoginCheck from '../../components/Login/withLoginCheck'
 
 @connect(
   state => ({
-    network: state.network,
+    networks: state.config.networks,
+    selectedNetworkId: state.config.selectedNetworkId,
     account: state.account,
   })
 )
@@ -49,7 +50,7 @@ class Send extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network, account } = this.props
+    const { selectedNetworkId, networks, account } = this.props
     this.setState({
       loading: true,
       errorMsg: '',
@@ -74,8 +75,9 @@ class Send extends Component {
     }
 
     let amounts = {}
+
     amounts[assetType] = parseFloat(this.state.amount)
-    api.neonDB.doSendAsset(network.name, this.state.address, account.wif, amounts)
+    api.neonDB.doSendAsset(networks[selectedNetworkId].url, this.state.address, account.wif, amounts)
       .then((result) => {
         console.log(result)
         this.setState({
@@ -160,5 +162,6 @@ export default withLoginCheck(Send)
 
 Send.propTypes = {
   account: PropTypes.object,
-  network: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
+  networks: PropTypes.object,
 }

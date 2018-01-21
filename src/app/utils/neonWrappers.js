@@ -8,35 +8,37 @@ function string2Hex(tmp) {
   return str
 }
 
-export function callInvoke (network, account, input) {
-  // Set Asset Type
-  let assetType
-  if (input.assetType === 0) {
-    assetType = 'NEO'
-  } else {
-    assetType = 'GAS'
-  }
+export function callInvoke (networkUrl, account, input) {
+  return new Promise((resolve, reject) => {
+    if (!Neon.CONST.ASSET_ID[input.assetType]) {
+      reject(new Error('Invalid asset type specified'))
+    }
 
-  const txArgs = [input.arg1, input.arg2]
-  const args = []
-  txArgs.forEach((arg) => {
-    if (arg !== '') args.push(string2Hex(arg))
+    const txArgs = [input.arg1, input.arg2]
+    const args = []
+    txArgs.forEach((arg) => {
+      if (arg) {
+        args.push(string2Hex(arg))
+      }
+    })
+
+    const myAccount = Neon.create.account(account.wif)
+
+    const config = {
+      net: networkUrl,
+      privateKey: myAccount.privateKey,
+      address: myAccount.address,
+      intents: [{
+        assetId: Neon.CONST.ASSET_ID[input.assetType],
+        value: parseFloat(input.amount),
+        scriptHash: input.scriptHash,
+      }],
+      script: { scriptHash: input.scriptHash, operation: input.operation, args: args },
+      gas: 0,
+    }
+
+    api.doInvoke(config)
+      .then(res => resolve(res))
+      .catch(e => reject(e))
   })
-
-  const myAccount = Neon.create.account(account.wif)
-
-  const config = {
-    net: network.name,
-    privateKey: myAccount.privateKey,
-    address: myAccount.address,
-    intents: [{
-      assetId: Neon.CONST.ASSET_ID[assetType],
-      value: parseFloat(input.amount),
-      scriptHash: input.scriptHash,
-    }],
-    script: { scriptHash: input.scriptHash, operation: input.operation, args: args },
-    gas: 0,
-  }
-
-  return api.doInvoke(config)
 }

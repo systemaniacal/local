@@ -7,9 +7,12 @@ import { TextField } from 'rmwc/TextField'
 import '@material/button/dist/mdc.button.min.css'
 import '@material/textfield/dist/mdc.textfield.min.css'
 
+import style from './Transactions.css'
+
 @connect(
   state => ({
-    network: state.network,
+    selectedNetworkId: state.config.selectedNetworkId,
+    networks: state.config.networks,
   })
 )
 
@@ -31,14 +34,14 @@ export default class Transactions extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network } = this.props
+    const { selectedNetworkId, networks } = this.props
     this.setState({
       loading: true,
       transactions: [],
       errorMsg: '',
       address: '',
     })
-    api.neonDB.getTransactionHistory(network.name, this.state.enteredAddress)
+    api.neonDB.getTransactionHistory(networks[selectedNetworkId].url, this.state.enteredAddress)
       .then((result) => {
         this.setState({
           loading: false,
@@ -47,7 +50,7 @@ export default class Transactions extends Component {
         })
       })
       .catch((e) => {
-        this.setState({ loading: false, errorMessage: 'Could not retrieve the transactions for this address.' })
+        this.setState({ loading: false, errorMsg: 'Could not retrieve the transactions for this address.' })
       })
   }
 
@@ -60,8 +63,14 @@ export default class Transactions extends Component {
         transaction.GAS + '\n\n'
     )
     return (
-      // <ul style="overflow: hidden;">{listItems}</ul>
-      <textarea readOnly style='border: 0; bottom: 0;' rows='20' cols='40' name='transactionList'>{listItems}</textarea>
+      <textarea
+        readOnly
+        className={ style.textAreaReset }
+        rows='20'
+        cols='40'
+        name='transactionList'
+        defaultValue={ listItems }
+      />
     )
   }
 
@@ -110,5 +119,6 @@ export default class Transactions extends Component {
 }
 
 Transactions.propTypes = {
-  network: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
+  networks: PropTypes.object,
 }

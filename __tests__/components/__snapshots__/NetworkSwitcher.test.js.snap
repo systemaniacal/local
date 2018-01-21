@@ -5,11 +5,26 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <NetworkSwitcher
-    network={
+    networks={
       Object {
-        "name": "MainNet",
+        "CoZTestNet": Object {
+          "canDelete": false,
+          "name": "CoZ TestNet",
+          "url": "http://coz-privatenet.herokuapp.com/",
+        },
+        "MainNet": Object {
+          "canDelete": false,
+          "name": "MainNet",
+          "url": "http://api.wallet.cityofzion.io",
+        },
+        "TestNet": Object {
+          "canDelete": false,
+          "name": "TestNet",
+          "url": "http://testnet-api.wallet.cityofzion.io",
+        },
       }
     }
+    selectedNetworkId="MainNet"
     setNetwork={[MockFunction]}
   />,
   Symbol(enzyme.__renderer__): Object {
@@ -30,14 +45,19 @@ ShallowWrapper {
         onChange={[Function]}
       >
         <option
+          value="MainNet"
+        >
+          MainNet
+        </option>
+        <option
           value="TestNet"
         >
           TestNet
         </option>
         <option
-          value="MainNet"
+          value="CoZTestNet"
         >
-          MainNet
+          CoZ TestNet
         </option>
       </select>,
     },
@@ -49,14 +69,19 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <option
+            value="MainNet"
+          >
+            MainNet
+          </option>,
+          <option
             value="TestNet"
           >
             TestNet
           </option>,
           <option
-            value="MainNet"
+            value="CoZTestNet"
           >
-            MainNet
+            CoZ TestNet
           </option>,
         ],
         "className": "switcher",
@@ -67,7 +92,19 @@ ShallowWrapper {
       "rendered": Array [
         Object {
           "instance": null,
-          "key": undefined,
+          "key": "option-key-MainNet",
+          "nodeType": "host",
+          "props": Object {
+            "children": "MainNet",
+            "value": "MainNet",
+          },
+          "ref": null,
+          "rendered": "MainNet",
+          "type": "option",
+        },
+        Object {
+          "instance": null,
+          "key": "option-key-TestNet",
           "nodeType": "host",
           "props": Object {
             "children": "TestNet",
@@ -79,14 +116,14 @@ ShallowWrapper {
         },
         Object {
           "instance": null,
-          "key": undefined,
+          "key": "option-key-CoZTestNet",
           "nodeType": "host",
           "props": Object {
-            "children": "MainNet",
-            "value": "MainNet",
+            "children": "CoZ TestNet",
+            "value": "CoZTestNet",
           },
           "ref": null,
-          "rendered": "MainNet",
+          "rendered": "CoZ TestNet",
           "type": "option",
         },
       ],
@@ -106,14 +143,19 @@ ShallowWrapper {
           onChange={[Function]}
         >
           <option
+            value="MainNet"
+          >
+            MainNet
+          </option>
+          <option
             value="TestNet"
           >
             TestNet
           </option>
           <option
-            value="MainNet"
+            value="CoZTestNet"
           >
-            MainNet
+            CoZ TestNet
           </option>
         </select>,
       },
@@ -125,14 +167,19 @@ ShallowWrapper {
         "props": Object {
           "children": Array [
             <option
+              value="MainNet"
+            >
+              MainNet
+            </option>,
+            <option
               value="TestNet"
             >
               TestNet
             </option>,
             <option
-              value="MainNet"
+              value="CoZTestNet"
             >
-              MainNet
+              CoZ TestNet
             </option>,
           ],
           "className": "switcher",
@@ -143,7 +190,19 @@ ShallowWrapper {
         "rendered": Array [
           Object {
             "instance": null,
-            "key": undefined,
+            "key": "option-key-MainNet",
+            "nodeType": "host",
+            "props": Object {
+              "children": "MainNet",
+              "value": "MainNet",
+            },
+            "ref": null,
+            "rendered": "MainNet",
+            "type": "option",
+          },
+          Object {
+            "instance": null,
+            "key": "option-key-TestNet",
             "nodeType": "host",
             "props": Object {
               "children": "TestNet",
@@ -155,14 +214,14 @@ ShallowWrapper {
           },
           Object {
             "instance": null,
-            "key": undefined,
+            "key": "option-key-CoZTestNet",
             "nodeType": "host",
             "props": Object {
-              "children": "MainNet",
-              "value": "MainNet",
+              "children": "CoZ TestNet",
+              "value": "CoZTestNet",
             },
             "ref": null,
-            "rendered": "MainNet",
+            "rendered": "CoZ TestNet",
             "type": "option",
           },
         ],

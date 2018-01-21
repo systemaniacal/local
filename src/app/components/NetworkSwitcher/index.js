@@ -9,13 +9,26 @@ class NetworkSwitcher extends Component {
     setNetwork(event.target.value)
   }
 
+  generateNetworkOptions(networks) {
+    const networkOptions = []
+
+    Object.keys(networks).forEach((index) => {
+      networkOptions.push((
+        <option key={ `option-key-${index}` } value={ index }>{ networks[index].name }</option>
+      ))
+    })
+    return networkOptions
+  }
+
   render () {
-    const { network } = this.props
+    const { selectedNetworkId, networks } = this.props
+
+    const networkOptions = this.generateNetworkOptions(networks)
+
     return (
       <div>
-        <select className={ style.switcher } defaultValue={ network.name } onChange={ this.change }>
-          <option value='TestNet'>TestNet</option>
-          <option value='MainNet'>MainNet</option>
+        <select className={ style.switcher } defaultValue={ selectedNetworkId } onChange={ this.change }>
+          { networkOptions }
         </select>
       </div>
     )
@@ -23,8 +36,9 @@ class NetworkSwitcher extends Component {
 }
 
 NetworkSwitcher.propTypes = {
-  network: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
   setNetwork: PropTypes.func,
+  networks: PropTypes.object,
 }
 
 export default NetworkSwitcher

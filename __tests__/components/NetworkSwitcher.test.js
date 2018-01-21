@@ -6,7 +6,12 @@ import NetworkSwitcher from '../../src/app/components/NetworkSwitcher'
 
 const setup = () => {
   const props = {
-    network: { name: 'MainNet' },
+    selectedNetworkId: 'MainNet',
+    networks: {
+      MainNet: { name: 'MainNet', url: 'http://api.wallet.cityofzion.io', canDelete: false },
+      TestNet: { name: 'TestNet', url: 'http://testnet-api.wallet.cityofzion.io', canDelete: false },
+      CoZTestNet: { name: 'CoZ TestNet', url: 'http://coz-privatenet.herokuapp.com/', canDelete: false },
+    },
     setNetwork: jest.fn(),
   }
   const wrapper = shallow(<NetworkSwitcher { ...props } />)

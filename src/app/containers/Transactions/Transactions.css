@@ -2,5 +2,9 @@
   word-wrap: break-word;
   word-break: break-all;
   /*width: 100px;*/
+}
 
+.textAreaReset {
+  border: 0;
+  bottom: 0;
 }
