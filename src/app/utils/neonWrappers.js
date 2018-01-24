@@ -1,5 +1,5 @@
 import Neon, { api } from '@cityofzion/neon-js'
-import { toNumber } from './utils/math'
+import { toNumber } from './math'
 
 function string2Hex(tmp) {
   let str = ''
