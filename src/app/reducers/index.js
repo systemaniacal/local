@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import network from './network'
 import account from './account'
+import config from './config'
 
 export default combineReducers({
   account,
-  network,
+  config,
 })

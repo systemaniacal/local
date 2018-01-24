@@ -11,7 +11,8 @@
     "lint": "eslint ./",
     "lintFix": "eslint ./ --fix",
     "start": "node utils/webserver.js",
-    "test": "jest"
+    "test": "jest",
+    "prepush": "echo 'running lint...' && npm run lint && echo 'running tests...' && npm test"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -45,6 +46,7 @@
     "fs-extra": "^0.30.0",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "2.30.1",
+    "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.0.4",
     "jest-cli": "^22.0.5",

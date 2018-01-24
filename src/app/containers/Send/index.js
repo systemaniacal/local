@@ -15,7 +15,8 @@ import { toNumber } from '../../utils/math'
 
 @connect(
   state => ({
-    network: state.network,
+    networks: state.config.networks,
+    selectedNetworkId: state.config.selectedNetworkId,
     account: state.account,
   })
 )
@@ -50,7 +51,8 @@ class Send extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { network, account } = this.props
+    const { selectedNetworkId, networks, account } = this.props
+    const { assetType, address, amount } = this.state
     this.setState({
       loading: true,
       errorMsg: '',
@@ -77,8 +79,8 @@ class Send extends Component {
     }
 
     let amounts = {}
-    amounts[this.state.assetType] = toNumber(this.state.amount)
-    api.neonDB.doSendAsset(network.name, this.state.address, account.wif, amounts)
+    amounts[assetType] = toNumber(amount)
+    api.neonDB.doSendAsset(networks[selectedNetworkId].url, address, account.wif, amounts)
       .then((result) => {
         console.log(result)
         this.setState({
@@ -163,5 +165,6 @@ export default withLoginCheck(Send)
 
 Send.propTypes = {
   account: PropTypes.object,
-  network: PropTypes.object,
+  selectedNetworkId: PropTypes.string,
+  networks: PropTypes.object,
 }

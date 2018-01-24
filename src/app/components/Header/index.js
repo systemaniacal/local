@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { setNetwork } from '../../actions/network'
+import { setNetwork } from '../../actions/config'
 
 import Header from './Header'
 
 const mapStateToProps = (state: Object) => ({
-  network: state.network,
+  selectedNetworkId: state.config.selectedNetworkId,
+  networks: state.config.networks,
 })
 
 const actionCreators = {
